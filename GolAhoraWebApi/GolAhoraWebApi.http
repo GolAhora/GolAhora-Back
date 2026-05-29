@@ -1,0 +1,6 @@
+@GolAhoraWebApi_HostAddress = http://localhost:5267
+
+GET {{GolAhoraWebApi_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
