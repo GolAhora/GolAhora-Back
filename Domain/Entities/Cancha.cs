@@ -10,7 +10,7 @@ namespace Domain.Entities
     {
         public Guid Id { get; set; }
         public int Numero { get; set; }
-        public EstadoCancha Estado { get; set; }
+        public EstadoCancha Estado { get; set; } = EstadoCancha.Disponible;
         public Guid TipoCanchaId { get; set; }
 
         public TipoCancha TipoCancha { get; set; }  
@@ -21,9 +21,9 @@ namespace Domain.Entities
     }
 }
 
- public enum EstadoCancha
+public enum EstadoCancha
 {
-    Disponible,
-    Ocupada,
-    Mantenimiento
+    Disponible = 1,
+    Mantenimiento = 2, 
+    Ocupada = 3
 }
