@@ -187,7 +187,7 @@ namespace Infrastructure.Persistence
             // --- Configuración de Reembolso ---
             modelBuilder.Entity<Reembolso>(entity =>
             {
-                entity.HasKey(r => r.Id); // Al ser int, es autoincremental
+                entity.HasKey(r => r.Id); 
                 entity.Property(r => r.Id).ValueGeneratedOnAdd();
 
                 entity.Property(r => r.Motivo).IsRequired();
@@ -268,7 +268,7 @@ namespace Infrastructure.Persistence
 
             var usuarioData = new Usuario[]
             {
-                new Usuario { Id = idPersona1, Nombre = "Juan Pérez", Edad = 30, Direccion = "Calle Falsa 123", Email = "luciano@ejemplo.com", Telefono = "1234567890" }
+                new Usuario { Id = idPersona1, Nombre = "Luciano Alvarez", Edad = 23, Direccion = "Calle Falsa 123", Email = "luciano@ejemplo.com", Telefono = "1234567890" }
             };
 
             var asistenciaData = new Asistencia[]
