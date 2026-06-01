@@ -8,5 +8,10 @@ namespace Application.Models.Request
 {
     public class ReservaRequest
     {
-    }
+        public int? IdReserva { get; set; }
+        public DateTime? Fecha { get; set; }
+        public DateTime? HoraInicio { get; set; }
+        public DateTime? HoraFin { get; set; }
+        public string? Estado { get; set; }
+     }
 }
