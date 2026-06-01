@@ -15,8 +15,8 @@ namespace Application.Interfaces
         Task<ReciboResponse> EliminarRecibo(Guid id);
         Task<ReciboResponse> ModificarRecibo(Guid id);
         Task<ReciboResponse> RegistrarRecibo(Guid id);
-        Task<ReciboResponse> ConsultarReciboPorReserva(Guid id);
-        Task<ReciboResponse> ConsultarReciboPorUsuario(Guid id);
+        Task<ReciboResponse> ConsultarReciboPorReserva(Guid idReserva);
+        Task<ReciboResponse> ConsultarReciboPorUsuario(Guid usuarioId);
         Task<ReciboResponse> ConsultarReciboPorFecha(DateTime fecha);
     }
 }
