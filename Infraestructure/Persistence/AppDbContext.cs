@@ -292,7 +292,7 @@ namespace Infrastructure.Persistence
 
             var facturaData = new Recibo[]
             {
-                new Recibo { id = idRecibo1, NumeroComprobante = 10001, FechaEmision = new DateTime(2026, 6, 1, 14, 35, 0), CobroId = idCobro1 }
+                new Recibo { Id = idRecibo1, NumeroComprobante = 10001, FechaEmision = new DateTime(2026, 6, 1, 14, 35, 0), CobroId = idCobro1 }
             };
 
             var reembolsoData = new Reembolso[]

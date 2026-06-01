@@ -12,7 +12,7 @@ namespace Application.Models.Request
         public DateTime Fecha { get; set; }
         public TimeSpan HoraInicio { get; set; }
         public TimeSpan HoraFin { get; set; }
-        public int CupoMaximo { get; set; } // Necesario para la regla de negocio
+        public int CupoMaximo { get; set; } 
         public Guid CanchaId { get; set; }
     }
 }

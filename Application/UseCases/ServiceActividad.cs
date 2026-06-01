@@ -11,12 +11,22 @@ namespace Application.UseCases
 {
     public class ServiceActividad : IServiceActividad
     {
+        public Task<ActividadResponse> CancelarInscripcionPorUsuario(Guid idUsuario)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<ActividadResponse> ConsultarActividad(Guid id)
         {
             throw new NotImplementedException();
         }
 
         public Task<IList<ActividadResponse>> ConsultarActividades()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ActividadResponse> ConsultarActividadPorCompetencia(Guid idCompetencia)
         {
             throw new NotImplementedException();
         }
@@ -31,7 +41,17 @@ namespace Application.UseCases
             throw new NotImplementedException();
         }
 
+        public Task<ActividadResponse> ProgramarActividad(ActividadRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<ActividadResponse> Registrar(ActividadRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ActividadResponse> ValidarCupoPorActividad(Guid idUsuario)
         {
             throw new NotImplementedException();
         }

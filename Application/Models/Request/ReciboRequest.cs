@@ -8,5 +8,7 @@ namespace Application.Models.Request
 {
     public class ReciboRequest
     {
+        public Guid CobroId { get; set; }
+
     }
 }
