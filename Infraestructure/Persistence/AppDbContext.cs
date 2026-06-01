@@ -29,7 +29,7 @@ namespace Infrastructure.Persistence
         public DbSet<Reserva> Reserva { get; set; }
         public DbSet<Mantenimiento> Mantenimiento { get; set; }
         public DbSet<Cobro> Cobro { get; set; }
-        public DbSet<Factura> Factura { get; set; }
+        public DbSet<Recibo> Recibo { get; set; }
         public DbSet<Reembolso> Reembolso { get; set; }
         public DbSet<Descuento> Descuento { get; set; }
         public DbSet<Partido> Partido { get; set; }
@@ -169,8 +169,8 @@ namespace Infrastructure.Persistence
                 entity.Property(c => c.Estado).IsRequired();
             });
 
-            // --- Configuración de Factura ---
-            modelBuilder.Entity<Factura>(entity =>
+            // --- Configuración de Recibo ---
+            modelBuilder.Entity<Recibo>(entity =>
             {
                 entity.HasKey(f => f.id);
                 entity.Property(f => f.id).ValueGeneratedOnAdd();
@@ -179,8 +179,8 @@ namespace Infrastructure.Persistence
                 entity.Property(f => f.FechaEmision).IsRequired();
 
                 entity.HasOne(f => f.Cobro)
-                      .WithOne(c => c.Factura)
-                      .HasForeignKey<Factura>(f => f.CobroId)
+                      .WithOne(c => c.Recibo)
+                      .HasForeignKey<Recibo>(f => f.CobroId)
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
@@ -244,7 +244,7 @@ namespace Infrastructure.Persistence
             // 4. IDs para Personas/Usuarios y Finanzas
             var idPersona1 = new Guid();
             var idCobro1 = new Guid();
-            var idFactura1 = new Guid();
+            var idRecibo1 = new Guid();
 
             var tipoCanchaData = new TipoCancha[]
             {
@@ -290,9 +290,9 @@ namespace Infrastructure.Persistence
                 new Cobro { Id = idCobro1, ReferenciaId = new Guid(), TipoReferencia = TipoReferencia.Reserva, Fecha = new TimeSpan(14, 30, 0), MedioPago = "Tarjeta de Crédito", MontoOriginal = 10000, MontoFinal = 10000, Estado = EstadoCobro.Confirmada }
             };
 
-            var facturaData = new Factura[]
+            var facturaData = new Recibo[]
             {
-                new Factura { id = idFactura1, NumeroComprobante = 10001, FechaEmision = new DateTime(2026, 6, 1, 14, 35, 0), CobroId = idCobro1 }
+                new Recibo { id = idRecibo1, NumeroComprobante = 10001, FechaEmision = new DateTime(2026, 6, 1, 14, 35, 0), CobroId = idCobro1 }
             };
 
             var reembolsoData = new Reembolso[]
@@ -319,7 +319,7 @@ namespace Infrastructure.Persistence
             modelBuilder.Entity<Reserva>().HasData(reservaData);
             modelBuilder.Entity<Mantenimiento>().HasData(mantenimientoData);
             modelBuilder.Entity<Cobro>().HasData(cobroData);
-            modelBuilder.Entity<Factura>().HasData(facturaData);
+            modelBuilder.Entity<Recibo>().HasData(facturaData);
             modelBuilder.Entity<Reembolso>().HasData(reembolsoData);
             modelBuilder.Entity<Descuento>().HasData(descuentoData);
             modelBuilder.Entity<Partido>().HasData(partidoData);

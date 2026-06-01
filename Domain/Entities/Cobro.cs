@@ -16,7 +16,7 @@ namespace Domain.Entities
         public float MontoOriginal { get; set; }
         public float MontoFinal { get; set; }
         public EstadoCobro Estado { get; set; }
-        public Factura? Factura { get; set; }
+        public Recibo? Recibo { get; set; }
 
     }
 

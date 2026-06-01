@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
-    public class Factura
+    public class Recibo
     {
         public Guid Id { get; set; }
         public int NumeroComprobante { get; set; }
