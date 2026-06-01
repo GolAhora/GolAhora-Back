@@ -10,8 +10,8 @@ namespace Application.Models.Response
     {
         public Guid Id { get; set; }
         public int Numero { get; set; }
-        public string Estado { get; set; } // "Disponible", "Ocupada", "Mantenimiento"
-        public string TipoCanchaNombre { get; set; }
+        public string? Estado { get; set; } // "Disponible", "Ocupada", "Mantenimiento"
+        public string? TipoCanchaNombre { get; set; }
 
 
     }

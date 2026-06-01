@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Interfaces;
+using Application.Models.Request;
 using Application.Models.Response;
 
 namespace Application.UseCases
@@ -40,6 +41,16 @@ namespace Application.UseCases
             throw new NotImplementedException();
         }
 
+        public Task<CobroResponse> GenerarReciboDeCobro(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CobroResponse> ImprimirCobro(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<CobroResponse> ModificarCobro(Guid id)
         {
             throw new NotImplementedException();
@@ -51,6 +62,16 @@ namespace Application.UseCases
         }
 
         public Task<CobroResponse> RegistrarCobro(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CobroResponse> RegistrarCobro(CobroRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CobroResponse> ValidarCobro(Guid id)
         {
             throw new NotImplementedException();
         }

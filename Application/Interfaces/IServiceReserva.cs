@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
-    public interface IReservaService 
+    public interface IServiceReserva
     {
         Task<ReservaResponse> CrearReserva(ReservaRequest request);
         Task<ReservaResponse> ModificarReserva(Guid id, ReservaRequest request);

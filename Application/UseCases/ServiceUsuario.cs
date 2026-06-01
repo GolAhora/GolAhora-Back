@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Interfaces;
+using Application.Models.Request;
 using Application.Models.Response;
 
 namespace Application.UseCases
@@ -35,12 +36,27 @@ namespace Application.UseCases
             throw new NotImplementedException();
         }
 
+        public Task<UsuarioResponse> EliminarUsuario(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<UsuarioResponse> ModificarUsuario()
         {
             throw new NotImplementedException();
         }
 
+        public Task<UsuarioResponse> ModificarUsuario(Guid id, UsuarioRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<UsuarioResponse> Registrar()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<UsuarioResponse> Registrar(UsuarioRequest request)
         {
             throw new NotImplementedException();
         }

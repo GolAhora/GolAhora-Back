@@ -12,7 +12,7 @@ namespace Application.Models.Response
         public DateTime Fecha { get; set; }
         public TimeSpan HoraInicio { get; set; }
         public TimeSpan HoraFin { get; set; }
-        public string Estado { get; set; }
+        public string? Estado { get; set; }
         public Guid CanchaId { get; set; }
         public Guid UsuarioId { get; set; }
     }

@@ -31,6 +31,21 @@ namespace Application.UseCases
             throw new NotImplementedException();
         }
 
+        public Task<CompetenciaResponse> ConsultarFixture()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CompetenciaResponse> ConsultarInscriptos()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CompetenciaResponse> ConsultarPartidos()
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<CompetenciaResponse> EliminarActividadDeCompetencia(Guid idCompetencia, Guid idActividad)
         {
             throw new NotImplementedException();
@@ -41,7 +56,22 @@ namespace Application.UseCases
             throw new NotImplementedException();
         }
 
+        public Task<CompetenciaResponse> EliminarPartido(Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<CompetenciaResponse> EliminarUsuarioDeCompetencia(Guid idCompetencia, Guid idUsuario)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CompetenciaResponse> GenerarFixture()
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<IList<CompetenciaResponse>> IncribirUsario()
         {
             throw new NotImplementedException();
         }
@@ -51,7 +81,22 @@ namespace Application.UseCases
             throw new NotImplementedException();
         }
 
+        public Task<CompetenciaResponse> ModificarPartido(Guid id, CompetenciaRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CompetenciaResponse> OrganizarCompetencia(CompetenciaRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
         public Task<CompetenciaResponse> RegistrarCompetencia(CompetenciaRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<CompetenciaResponse> RegistrarPartido()
         {
             throw new NotImplementedException();
         }
