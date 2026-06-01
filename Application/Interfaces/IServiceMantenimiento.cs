@@ -17,6 +17,5 @@ namespace Application.Interfaces
         Task<IList<MantenimientoResponse>> ConsultarMantenimientos();
         Task<MantenimientoResponse> AgregarCanchaAMantenimiento(Guid idMantenimiento, Guid idCancha);
 
-
     }
 }

@@ -8,11 +8,12 @@ namespace Application.Models.Request
 {
     public class UsuarioRequest
     {
-        public String? Nombre { get; set; }
-        public String? Direccion { get; set; }
-        public String? Telefono { get; set; }
+        public string? Nombre { get; set; }
+        public string? Direccion { get; set; }
+        public string? Telefono { get; set; }
+        public string Email { get; set; } // OBLIGATORIO según requerimiento
         public int? Edad { get; set; }
-        public String? Password { get; set; }
+        public string? Password { get; set; }
 
     }
 }

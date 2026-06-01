@@ -8,5 +8,6 @@ namespace Application.UseCases
 {
     public class ServicePartido
     {
+
     }
 }

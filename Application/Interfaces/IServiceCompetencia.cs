@@ -11,15 +11,18 @@ namespace Application.Interfaces
     public interface IServiceCompetencia
     {
 
-        Task<CompetenciaResponse> RegistrarCompetencia(CompetenciaRequest request);
+        Task<CompetenciaResponse> OrganizarCompetencia(CompetenciaRequest request);
         Task<CompetenciaResponse> ModificarCompetencia(Guid id, CompetenciaRequest request);
         Task<CompetenciaResponse> EliminarCompetencia(Guid id);
-        Task    <CompetenciaResponse> ConsultarCompetencia(Guid id);
-        Task<IList<CompetenciaResponse>> ConsultarCompetencias();
-        Task<CompetenciaResponse> AgregarActividadACompetencia(Guid idCompetencia, Guid idActividad);
-        Task<CompetenciaResponse> EliminarActividadDeCompetencia(Guid idCompetencia, Guid idActividad);
-        Task<CompetenciaResponse> AgregarUsuarioACompetencia(Guid idCompetencia, Guid idUsuario);
-        Task<CompetenciaResponse> EliminarUsuarioDeCompetencia(Guid idCompetencia, Guid idUsuario);                                 
+        Task<CompetenciaResponse> ConsultarCompetencia(Guid id);
+        Task<IList<CompetenciaResponse>> IncribirUsario();
+        Task<CompetenciaResponse> ConsultarInscriptos();
+        Task<CompetenciaResponse> GenerarFixture();
+        Task<CompetenciaResponse> ConsultarFixture();
+        Task<CompetenciaResponse> RegistrarPartido();
+        Task<CompetenciaResponse> ConsultarPartidos();
+        Task<CompetenciaResponse> EliminarPartido(Guid id);
+        Task<CompetenciaResponse> ModificarPartido(Guid id, CompetenciaRequest request);
 
 
     }

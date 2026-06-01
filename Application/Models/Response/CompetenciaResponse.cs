@@ -8,5 +8,12 @@ namespace Application.Models.Response
 {
     public class CompetenciaResponse
     {
+        public Guid Id { get; set; }
+        public string? Nombre { get; set; }
+        public DateTime FechaInicio { get; set; }
+        public DateTime FechaFin { get; set; }
+        public string? ReglamentoOficial { get; set; }
+        public string? ReglamentoInterno { get; set; }
+
     }
 }

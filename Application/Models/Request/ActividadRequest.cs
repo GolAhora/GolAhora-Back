@@ -8,11 +8,11 @@ namespace Application.Models.Request
 {
     public class ActividadRequest
     {
-        public string? Nombre { get; set; }
-        public string? Descripcion { get; set; }
-        public DateTime? Fecha { get; set; }
-        public TimeSpan? HoraInicio { get; set; }
-        public TimeSpan? HoraFin { get; set; }
-        public Guid? CanchaId { get; set; }
+        public string Nombre { get; set; }
+        public DateTime Fecha { get; set; }
+        public TimeSpan HoraInicio { get; set; }
+        public TimeSpan HoraFin { get; set; }
+        public int CupoMaximo { get; set; } // Necesario para la regla de negocio
+        public Guid CanchaId { get; set; }
     }
 }

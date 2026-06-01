@@ -8,5 +8,12 @@ namespace Application.Models.Response
 {
     public class UsuarioResponse
     {
+        public Guid Id { get; set; }
+        public string? Nombre { get; set; }
+        public string? Email { get; set; } // Unificado con tu DB y Request
+        public string? Telefono { get; set; }
+        public string? Direccion { get; set; }
+        public int Edad { get; set; }
+        public decimal SaldoPendiente { get; set; } // Agregado según tu UML
     }
 }

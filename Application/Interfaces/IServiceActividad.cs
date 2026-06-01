@@ -10,10 +10,13 @@ namespace Application.Interfaces
 {
     public interface IServiceActividad
     {
-        Task<ActividadResponse> Registrar(ActividadRequest request);
+        Task<ActividadResponse> ProgramarActividad(ActividadRequest request);
         Task<ActividadResponse> ModificarActividad(ActividadRequest request);
         Task<ActividadResponse> EliminarActividad(Guid id);
         Task<ActividadResponse> ConsultarActividad(Guid id);
+        Task<ActividadResponse> ConsultarActividadPorCompetencia(Guid idCompetencia);
+        Task<ActividadResponse> CancelarInscripcionPorUsuario(Guid idUsuario);
+        Task<ActividadResponse> ValidarCupoPorActividad(Guid idUsuario);
         Task<IList<ActividadResponse>> ConsultarActividades();
 
     }

@@ -8,5 +8,10 @@ namespace Application.Models.Request
 {
     public class CompetenciaRequest
     {
+        public string Nombre { get; set; }
+        public DateTime FechaInicio { get; set; }
+        public DateTime FechaFin { get; set; }
+        public string ReglamentoOficial { get; set; }
+        public string ReglamentoInterno { get; set; }
     }
 }

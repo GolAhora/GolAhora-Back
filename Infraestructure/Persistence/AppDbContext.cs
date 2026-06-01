@@ -172,8 +172,8 @@ namespace Infrastructure.Persistence
             // --- Configuración de Factura ---
             modelBuilder.Entity<Factura>(entity =>
             {
-                entity.HasKey(f => f.id);
-                entity.Property(f => f.id).ValueGeneratedOnAdd();
+                entity.HasKey(f => f.Id);
+                entity.Property(f => f.Id).ValueGeneratedOnAdd();
 
                 entity.Property(f => f.NumeroComprobante).IsRequired();
                 entity.Property(f => f.FechaEmision).IsRequired();
@@ -292,7 +292,7 @@ namespace Infrastructure.Persistence
 
             var facturaData = new Factura[]
             {
-                new Factura { id = idFactura1, NumeroComprobante = 10001, FechaEmision = new DateTime(2026, 6, 1, 14, 35, 0), CobroId = idCobro1 }
+                new Factura { Id = idFactura1, NumeroComprobante = 10001, FechaEmision = new DateTime(2026, 6, 1, 14, 35, 0), CobroId = idCobro1 }
             };
 
             var reembolsoData = new Reembolso[]

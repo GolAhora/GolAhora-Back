@@ -8,5 +8,6 @@ namespace Application.Models.Request
 {
     public class FacturaRequest
     {
+        public Guid CobroId { get; set; }
     }
 }
