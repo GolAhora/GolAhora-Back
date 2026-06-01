@@ -9,6 +9,7 @@ namespace Domain.Entities
     public class Clase : Actividad
     {
         public Guid ProfesorId { get; set; }
+        public Profesor Profesor { get; set; } = null;
 
 
     }

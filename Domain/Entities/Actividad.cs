@@ -15,6 +15,7 @@ namespace Domain.Entities
         public Guid CanchaId { get; set; }
 
         public Cancha Cancha { get; set; } 
+        public List<Inscripcion> Inscripciones { get; set; }
 
 
     }

@@ -15,7 +15,6 @@ namespace Domain.Entities
         public EstadoReserva Estado { get; set; }
         public Guid CanchaId { get; set; }
         public Guid UsuarioId { get; set; }
-
         public Usuario Usuario { get; set; }
         public Cancha Cancha { get; set; }
 
