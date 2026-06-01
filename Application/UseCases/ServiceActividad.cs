@@ -4,53 +4,34 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Application.Interfaces;
+using Application.Models.Request;
 using Application.Models.Response;
 
 namespace Application.UseCases
 {
-    public class ServiceActividad : IServiceFactura
+    public class ServiceActividad : IServiceActividad
     {
-        public Task<FacturaResponse> ConsultarFactura(Guid id)
+        public Task<ActividadResponse> ConsultarActividad(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<FacturaResponse> ConsultarFacturaPorFecha(DateTime fecha)
+        public Task<IList<ActividadResponse>> ConsultarActividades()
         {
             throw new NotImplementedException();
         }
 
-        public Task<FacturaResponse> ConsultarFacturaPorReserva(Guid id)
+        public Task<ActividadResponse> EliminarActividad(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<FacturaResponse> ConsultarFacturaPorUsuario(Guid id)
+        public Task<ActividadResponse> ModificarActividad(ActividadRequest request)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IList<FacturaResponse>> ConsultarFacturas()
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<FacturaResponse> EliminarFactura(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<FacturaResponse> ModificarFactura(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<FacturaResponse> RealizarFactura(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<FacturaResponse> RegistrarFactura(Guid id)
+        public Task<ActividadResponse> Registrar(ActividadRequest request)
         {
             throw new NotImplementedException();
         }
