@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.UseCases
+namespace Application.Models.Request
 {
-    public class ServiceFactura
+    public class ReciboRequest
     {
     }
 }

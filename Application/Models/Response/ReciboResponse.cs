@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.Models.Response
 {
-    public class FacturaResponse
+    public class ReciboResponse
     {
         public Guid Id { get; set; }
         public int NumeroComprobante { get; set; } // Clave para la impresión

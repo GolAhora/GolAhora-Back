@@ -4,10 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Models.Request
+namespace Application.UseCases
 {
-    public class FacturaRequest
+    public class ServiceRecibo
     {
-        public Guid CobroId { get; set; }
     }
 }

@@ -13,5 +13,7 @@ namespace Application.Interfaces
         Task<UsuarioResponse> EliminarUsuario(Guid id); 
         Task<UsuarioResponse> ConsultarUsuario(Guid id);
         Task<IList<UsuarioResponse>> ConsultarUsuarios();
+
+
     }
 }
