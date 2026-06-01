@@ -13,9 +13,7 @@ namespace Domain.Entities
         public DateTime FechaInicio { get; set; }
         public DateTime FechaFin { get; set; }
         public String Reglamento { get; set; }
-
-        public List<Actividad> Inscriptos; 
-
+        public List<Inscripcion> Inscripciones { get; set; }
         public  EstadoCompetencia Estado { get; set; }
     }
 }

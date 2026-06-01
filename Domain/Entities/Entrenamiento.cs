@@ -9,5 +9,7 @@ namespace Domain.Entities
     public class Entrenamiento : Actividad
     {
         public String Categoria { get; set; }
+        public Guid EntrenadorId { get; set; }
+        public Entrenador Entrenador { get; set; } = null;
     }
 }

@@ -1,0 +1,20 @@
+﻿using Application.Models.Request;
+using Application.Models.Response;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace Application.Interfaces
+{
+    public interface IServiceActividad
+    {
+        Task<ActividadResponse> Registrar(ActividadRequest request);
+        Task<ActividadResponse> ModificarActividad(ActividadRequest request);
+        Task<ActividadResponse> EliminarActividad(Guid id);
+        Task<ActividadResponse> ConsultarActividad(Guid id);
+        Task<IList<ActividadResponse>> ConsultarActividades();
+
+    }
+}

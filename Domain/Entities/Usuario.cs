@@ -8,8 +8,9 @@ namespace Domain.Entities
 {
     public class Usuario : Persona
     {
+        public string Password { get; set; } 
+        public DateTime FechaRegistro { get; set; }
 
-        // completar
         public List<Reserva> Reservas { get; set; }
     }
 }

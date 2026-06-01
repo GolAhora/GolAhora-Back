@@ -8,11 +8,10 @@ namespace Domain.Entities
 {
     public class Factura
     {
-        public Guid id { get; set; }
+        public Guid Id { get; set; }
         public int NumeroComprobante { get; set; }
         public DateTime  FechaEmision { get; set; }
         public Guid CobroId { get; set; }
-
         public Cobro Cobro { get; set; }
 
     }
