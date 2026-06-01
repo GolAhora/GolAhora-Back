@@ -17,7 +17,5 @@ namespace Application.Interfaces
         Task<IList<UsuarioResponse>> ConsultarUsuarios();
 
 
-
-
     }
 }

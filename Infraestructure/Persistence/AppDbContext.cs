@@ -187,7 +187,7 @@ namespace Infrastructure.Persistence
             // --- Configuración de Reembolso ---
             modelBuilder.Entity<Reembolso>(entity =>
             {
-                entity.HasKey(r => r.Id); // Al ser int, es autoincremental
+                entity.HasKey(r => r.Id); 
                 entity.Property(r => r.Id).ValueGeneratedOnAdd();
 
                 entity.Property(r => r.Motivo).IsRequired();
@@ -227,25 +227,24 @@ namespace Infrastructure.Persistence
             });
 
 
-
             // --- Carga de datos iniciales (Seed Data) --- //
 
             // 1. IDs para TipoCancha
-            var idFutbol5 = Guid.Parse("11111111-1111-1111-1111-111111111111");
-            var idFutbol11 = Guid.Parse("22222222-2222-2222-2222-222222222222");
+            var idFutbol5 = new Guid();
+            var idFutbol11 = new Guid();
 
             // 2. IDs para Canchas
-            var idCancha1 = Guid.Parse("33333333-3333-3333-3333-333333333333");
-            var idCancha2 = Guid.Parse("44444444-4444-4444-4444-444444444444");
-            var idCancha3 = Guid.Parse("55555555-5555-5555-5555-555555555555");
+            var idCancha1 = new Guid();
+            var idCancha2 = new Guid();
+            var idCancha3 = new Guid();
 
             // 3. IDs para Actividades
-            var idActividad1 = Guid.Parse("66666666-6666-6666-6666-666666666666");
+            var idActividad1 = new Guid();
 
             // 4. IDs para Personas/Usuarios y Finanzas
-            var idPersona1 = Guid.Parse("88888888-8888-8888-8888-888888888888");
-            var idCobro1 = Guid.Parse("BBBBBBBB-BBBB-BBBB-BBBB-BBBBBBBBBBBB");
-            var idFactura1 = Guid.Parse("CCCCCCCC-CCCC-CCCC-CCCC-CCCCCCCCCCCC");
+            var idPersona1 = new Guid();
+            var idCobro1 = new Guid();
+            var idFactura1 = new Guid();
 
             var tipoCanchaData = new TipoCancha[]
             {
@@ -263,17 +262,17 @@ namespace Infrastructure.Persistence
             var actividadData = new Actividad[]
             {
                 new Actividad { Id = idActividad1, Nombre = "Turno Fijo Amigos", Fecha = new DateTime(2026, 6, 1, 20, 0, 0), CupoMaximo = 10, CanchaId = idCancha1 },
-                new Actividad { Id = Guid.Parse("77777777-7777-7777-7777-777777777777"), Nombre = "Entrenamiento Escuelita", Fecha = new DateTime(2026, 6, 2, 18, 0, 0), CupoMaximo = 22, CanchaId = idCancha3 }
+                new Actividad { Id = new Guid(), Nombre = "Entrenamiento Escuelita", Fecha = new DateTime(2026, 6, 2, 18, 0, 0), CupoMaximo = 22, CanchaId = idCancha3 }
             };
 
             var usuarioData = new Usuario[]
             {
-                new Usuario { Id = idPersona1, Nombre = "Juan Pérez", Edad = 30, Direccion = "Calle Falsa 123", Email = "luciano@ejemplo.com", Telefono = "1234567890" }
+                new Usuario { Id = idPersona1, Nombre = "Luciano Alvarez", Edad = 23, Direccion = "Calle Falsa 123", Email = "luciano@ejemplo.com", Telefono = "1234567890" }
             };
 
             var asistenciaData = new Asistencia[]
             {
-                new Asistencia { Id = Guid.Parse("99999999-9999-9999-9999-999999999999"), FechaHorario = new DateTime(2026, 6, 1, 20, 0, 0), PersonaId = idPersona1, ActividadId = idActividad1 }
+                new Asistencia { Id = new Guid(), FechaHorario = new DateTime(2026, 6, 1, 20, 0, 0), PersonaId = idPersona1, ActividadId = idActividad1 }
             };
 
             var reservaData = new Reserva[]
@@ -283,12 +282,12 @@ namespace Infrastructure.Persistence
 
             var mantenimientoData = new Mantenimiento[]
             {
-                new Mantenimiento { Id = Guid.Parse("aaaaaaaa-aaaa-aaaa-aaaa-aaaaaaaaaaaa"), CanchaId = idCancha2, Fecha = new DateTime(2026, 6, 3), HoraInicio = new DateTime(2026, 6, 3, 8, 0, 0), HoraFin = new DateTime(2026, 6, 3, 12, 0, 0), Motivo = "Mantenimiento preventivo", Estado = true }
+                new Mantenimiento { Id = new Guid(), CanchaId = idCancha2, Fecha = new DateTime(2026, 6, 3), HoraInicio = new DateTime(2026, 6, 3, 8, 0, 0), HoraFin = new DateTime(2026, 6, 3, 12, 0, 0), Motivo = "Mantenimiento preventivo", Estado = true }
             };
 
             var cobroData = new Cobro[]
             {
-                new Cobro { Id = idCobro1, ReferenciaId = Guid.Parse("DDDDDDDD-DDDD-DDDD-DDDD-DDDDDDDDDDDD"), TipoReferencia = TipoReferencia.Reserva, Fecha = new TimeSpan(14, 30, 0), MedioPago = "Tarjeta de Crédito", MontoOriginal = 10000, MontoFinal = 10000, Estado = EstadoCobro.Confirmada }
+                new Cobro { Id = idCobro1, ReferenciaId = new Guid(), TipoReferencia = TipoReferencia.Reserva, Fecha = new TimeSpan(14, 30, 0), MedioPago = "Tarjeta de Crédito", MontoOriginal = 10000, MontoFinal = 10000, Estado = EstadoCobro.Confirmada }
             };
 
             var facturaData = new Factura[]
@@ -303,7 +302,7 @@ namespace Infrastructure.Persistence
 
             var descuentoData = new Descuento[]
             {
-                new Descuento { Id = Guid.Parse("eeeeeeee-eeee-eeee-eeee-eeeeeeeeeeee"), Nombre = "Descuento de Verano", Porcentaje = 10, EstadoActivo = true }
+                new Descuento { Id = new Guid(), Nombre = "Descuento de Verano", Porcentaje = 10, EstadoActivo = true }
             };
 
             var partidoData = new Partido[]

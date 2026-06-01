@@ -6,8 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.Models.Request
 {
-    public class CanchaRequest
+    public class CompetenciaRequest
     {
-           
     }
 }

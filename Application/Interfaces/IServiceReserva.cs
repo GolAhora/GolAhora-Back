@@ -10,6 +10,7 @@ namespace Application.Interfaces
 {
     public interface IServiceReserva
     {
+        Task <ReservaResponse> RegistrarReserva(Guid id);
         Task<ReservaResponse> CrearReserva(ReservaRequest request);
         Task<ReservaResponse> ModificarReserva(Guid id, ReservaRequest request);
         Task<ReservaResponse> CancelarReserva(Guid id);
