@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
-    public interface IServiceUsuario
+    public interface IUsuarioService
     {
         Task<UsuarioResponse> Registrar(UsuarioRequest request); 
         Task<UsuarioResponse> ModificarUsuario(Guid id, UsuarioRequest request); 

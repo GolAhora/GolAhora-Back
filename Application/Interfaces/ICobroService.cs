@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
-    public interface IServiceCobro
+    public interface ICobroService
     {
         Task<CobroResponse> RegistrarCobro(CobroRequest request); 
         Task<CobroResponse> ModificarCobro(Guid id);

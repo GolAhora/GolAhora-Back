@@ -18,7 +18,6 @@ namespace Domain.Entities
     }
 }
 
-
 public enum EstadoCompetencia
 {
     EnCurso = 1,

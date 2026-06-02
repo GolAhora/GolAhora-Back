@@ -9,7 +9,7 @@ using Application.Models.Response;
 
 namespace Application.UseCases
 {
-    public class ServiceCompetencia : IServiceCompetencia
+    public class CompetenciaService : ICompetenciaService
     {
         public Task<CompetenciaResponse> AgregarActividadACompetencia(Guid idCompetencia, Guid idActividad)
         {

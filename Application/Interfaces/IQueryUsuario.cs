@@ -1,4 +1,5 @@
 ﻿using Application.Models.Response;
+using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,10 +10,11 @@ namespace Application.Interfaces
 {
     public interface IQueryUsuario
     {
-        Task<UsuarioResponse> ConsultarUsuario(Guid id);
-        Task<IList<UsuarioResponse>> ConsultarUsuarios();
-        Task<UsuarioResponse> EliminarUsuario();
-        Task<UsuarioResponse> ModificarUsuario();
-        Task<UsuarioResponse> Registrar();
+        public Task<Usuario> Registrar(Usuario usuario);
+        public Task<Usuario> ConsultarUsuario(Guid id);
+        public Task<IList<Usuario>> ConsultarUsuarios();
+        public Task<Usuario> EliminarUsuario(Guid id);
+        public Task<Usuario> ModificarUsuario(Guid id, Usuario usuario);
+ 
     }
 }

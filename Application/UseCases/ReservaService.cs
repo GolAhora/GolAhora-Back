@@ -9,7 +9,7 @@ using Application.Models.Response;
 
 namespace Application.UseCases
 {
-    public class ServiceReserva : IServiceReserva
+    public class ReservaService : IReservaService
     {
         public Task<ReservaResponse> CancelarReserva(Guid id)
         {

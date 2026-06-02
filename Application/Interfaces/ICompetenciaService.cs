@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
-    public interface IServiceCompetencia
+    public interface ICompetenciaService
     {
 
         Task<CompetenciaResponse> OrganizarCompetencia(CompetenciaRequest request);

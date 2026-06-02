@@ -8,7 +8,7 @@ using Application.Models.Response;
 
 namespace Application.Interfaces
 {
-    public interface IServiceMantenimiento
+    public interface IMantenimientoService
     {
         Task<MantenimientoResponse> RegistrarMantenimiento(MantenimientoRequest request);
         Task<MantenimientoResponse> ModificarMantenimiento(Guid id, MantenimientoRequest request);

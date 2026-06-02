@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Enums;
 
 namespace Domain.Entities
 {
@@ -12,7 +13,7 @@ namespace Domain.Entities
         public DateTime Fecha { get; set; }
         public TimeSpan HoraInicio { get; set; }
         public TimeSpan HoraFin { get; set; }
-        public EstadoReserva Estado { get; set; }
+        public Estado Estado { get; set; }
         public Guid CanchaId { get; set; }
         public Guid UsuarioId { get; set; }
         public Usuario Usuario { get; set; }
@@ -22,9 +23,3 @@ namespace Domain.Entities
 }
 
 
-public enum EstadoReserva
-{
-    Pendiente = 1,
-    Confirmada = 2,
-    Cancelada = 3
-}

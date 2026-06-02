@@ -9,7 +9,7 @@ using Application.Models.Response;
 
 namespace Application.UseCases
 {
-    public class ServiceCobro : IServiceCobro
+    public class CobroService: ICobroService
     {
         public Task<CobroResponse> ConsultarCobro(Guid id)
         {

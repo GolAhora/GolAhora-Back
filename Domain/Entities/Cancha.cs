@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Enums;
 
 namespace Domain.Entities
 {
@@ -21,9 +22,3 @@ namespace Domain.Entities
     }
 }
 
-public enum EstadoCancha
-{
-    Disponible = 1,
-    Mantenimiento = 2, 
-    Ocupada = 3
-}

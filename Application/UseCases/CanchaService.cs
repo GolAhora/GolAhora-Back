@@ -9,8 +9,15 @@ using Application.Models.Response;
 
 namespace Application.UseCases
 {
-    public class ServiceCancha : IServiceCancha
+    public class CanchaService: ICanchaService
     {
+        private readonly IQueryCancha 
+
+        public CanchaService() 
+        {
+        
+        }  
+
         public Task<CanchaResponse> ActualizarCancha(Guid id, CanchaRequest request)
         {
             throw new NotImplementedException();
@@ -48,7 +55,7 @@ namespace Application.UseCases
 
         public Task<CanchaResponse> CrearCancha(CanchaRequest request)
         {
-            throw new NotImplementedException();
+            
         }
 
         public Task<CanchaResponse> EliminarCancha(Guid id)

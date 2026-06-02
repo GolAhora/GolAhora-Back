@@ -9,7 +9,7 @@ using Application.Models.Response;
 
 namespace Application.UseCases
 {
-    public class ServiceMantenimiento : IServiceMantenimiento
+    public class MantenimientoService : IMantenimientoService
     {
         public Task<MantenimientoResponse> AgregarCanchaAMantenimiento(Guid idMantenimiento, Guid idCancha)
         {

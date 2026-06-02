@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
-    public interface IServiceCancha
+    public interface ICanchaService
     {
        Task<CanchaResponse> CrearCancha(CanchaRequest request);
        Task<CanchaResponse> EliminarCancha(Guid id);

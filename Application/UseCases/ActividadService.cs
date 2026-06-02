@@ -9,54 +9,49 @@ using Application.Models.Response;
 
 namespace Application.UseCases
 {
-    public class ServiceUsuario : IServiceUsuario
+    public class ActividadService : IActividadService
     {
-        private readonly IQueryUsuario _query;     
-        private readonly ICommandUsuario _command;
-
-        public ServiceUsuario(IQueryUsuario query, ICommandUsuario command) 
-        {
-            _query = query;
-            _command = command;
-
-        }
-
-        public Task<UsuarioResponse> ConsultarUsuario(Guid id)
+        public Task<ActividadResponse> CancelarInscripcionPorUsuario(Guid idUsuario)
         {
             throw new NotImplementedException();
         }
 
-        public Task<IList<UsuarioResponse>> ConsultarUsuarios()
+        public Task<ActividadResponse> ConsultarActividad(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<UsuarioResponse> EliminarUsuario()
+        public Task<IList<ActividadResponse>> ConsultarActividades()
         {
             throw new NotImplementedException();
         }
 
-        public Task<UsuarioResponse> EliminarUsuario(Guid id)
+        public Task<ActividadResponse> ConsultarActividadPorCompetencia(Guid idCompetencia)
         {
             throw new NotImplementedException();
         }
 
-        public Task<UsuarioResponse> ModificarUsuario()
+        public Task<ActividadResponse> EliminarActividad(Guid id)
         {
             throw new NotImplementedException();
         }
 
-        public Task<UsuarioResponse> ModificarUsuario(Guid id, UsuarioRequest request)
+        public Task<ActividadResponse> ModificarActividad(ActividadRequest request)
         {
             throw new NotImplementedException();
         }
 
-        public Task<UsuarioResponse> Registrar()
+        public Task<ActividadResponse> ProgramarActividad(ActividadRequest request)
         {
             throw new NotImplementedException();
         }
 
-        public Task<UsuarioResponse> Registrar(UsuarioRequest request)
+        public Task<ActividadResponse> Registrar(ActividadRequest request)
+        {
+            throw new NotImplementedException();
+        }
+
+        public Task<ActividadResponse> ValidarCupoPorActividad(Guid idUsuario)
         {
             throw new NotImplementedException();
         }
