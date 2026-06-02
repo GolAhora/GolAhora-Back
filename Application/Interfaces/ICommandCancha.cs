@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
-    public interface ICommandUsuario
+    public interface ICommandCancha
     {
-        Task AgregarAsync(Usuario usuario);
+        Task AgregarAsync(Cancha cancha);
 
-        Task ModificarAsync(Usuario usuario);
+        Task ModificarAsync(Cancha cancha);
 
         Task EliminarAsync(Guid id);
     }

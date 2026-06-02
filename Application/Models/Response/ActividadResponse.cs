@@ -13,7 +13,7 @@ namespace Application.Models.Response
         public DateTime Fecha { get; set; }
         public TimeSpan HoraInicio { get; set; }
         public TimeSpan HoraFin { get; set; }
-        public int CupoMaximo { get; set; } // Agregado por regla de negocio
+        public int CupoMaximo { get; set; } // ¡NUEVO! Regla de negocio
         public Guid CanchaId { get; set; }
 
     }

@@ -19,11 +19,6 @@ namespace Application.Interfaces
         Task<CompetenciaResponse> ConsultarInscriptos();
         Task<CompetenciaResponse> GenerarFixture();
         Task<CompetenciaResponse> ConsultarFixture();
-        Task<CompetenciaResponse> RegistrarPartido();
-        Task<CompetenciaResponse> ConsultarPartidos();
-        Task<CompetenciaResponse> EliminarPartido(Guid id);
-        Task<CompetenciaResponse> ModificarPartido(Guid id, CompetenciaRequest request);
-
 
     }
 }

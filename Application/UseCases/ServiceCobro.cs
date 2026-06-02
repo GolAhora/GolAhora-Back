@@ -1,79 +1,196 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Application.Models.Request;
 using Application.Models.Response;
+using Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace Application.UseCases
 {
+    // Servicio encargado de manejar los cobros
     public class ServiceCobro : IServiceCobro
     {
-        public Task<CobroResponse> ConsultarCobro(Guid id)
+        // Referencias a Query y Command
+        private readonly IQueryCobro _query;
+        private readonly ICommandCobro _command;
+
+        // Constructor
+        public ServiceCobro(IQueryCobro query, ICommandCobro command)
         {
-            throw new NotImplementedException();
+            _query = query;
+            _command = command;
         }
 
-        public Task<CobroResponse> ConsultarCobroPorFecha(DateTime fecha)
+        // Busca un cobro por su Id
+        public async Task<CobroResponse> ConsultarCobro(Guid id)
         {
-            throw new NotImplementedException();
+            Cobro cobro = await _query.ObtenerPorIdAsync(id);
+
+            if (cobro == null)
+            {
+                throw new Exception("Cobro no encontrado.");
+            }
+
+            return Mapear(cobro);
         }
 
-        public Task<CobroResponse> ConsultarCobroPorReserva(Guid id)
+        // Devuelve todos los cobros registrados
+        public async Task<IList<CobroResponse>> ConsultarCobros()
         {
-            throw new NotImplementedException();
+            IList<Cobro> cobros = await _query.ObtenerTodosAsync();
+
+            List<CobroResponse> listaCobros =
+                new List<CobroResponse>();
+
+            foreach (Cobro cobro in cobros)
+            {
+                listaCobros.Add(Mapear(cobro));
+            }
+
+            return listaCobros;
         }
 
-        public Task<CobroResponse> ConsultarCobroPorUsuario(Guid id)
+        // Registra un nuevo cobro
+        public async Task<CobroResponse> RegistrarCobro(
+            CobroRequest request)
         {
-            throw new NotImplementedException();
+            // Validamos que el monto sea correcto
+            if (request.MontoFinal <= 0)
+            {
+                throw new Exception(
+                    "El monto del cobro debe ser mayor a cero.");
+            }
+
+            // Creamos un nuevo cobro
+            Cobro nuevoCobro = new Cobro();
+
+            nuevoCobro.ReferenciaId = request.ReferenciaId;
+            nuevoCobro.MedioPago = request.MedioPago;
+            nuevoCobro.MontoFinal = request.MontoFinal;
+
+            // Inicialmente ambos montos son iguales
+            nuevoCobro.MontoOriginal = request.MontoFinal;
+
+            // Guardamos la fecha actual
+            nuevoCobro.Fecha = DateTime.Now;
+
+            // El cobro comienza pendiente
+            nuevoCobro.Estado = EstadoCobro.Pendiente;
+
+            await _command.AgregarAsync(nuevoCobro);
+
+            return Mapear(nuevoCobro);
         }
 
-        public Task<IList<CobroResponse>> ConsultarCobros()
+        // Elimina un cobro
+        public async Task<CobroResponse> EliminarCobro(Guid id)
         {
-            throw new NotImplementedException();
+            Cobro cobro = await _query.ObtenerPorIdAsync(id);
+
+            if (cobro == null)
+            {
+                throw new Exception("El cobro no existe.");
+            }
+
+            await _command.EliminarAsync(id);
+
+            return Mapear(cobro);
         }
 
-        public Task<CobroResponse> EliminarCobro(Guid id)
+        // Confirma un cobro realizado
+        public async Task<CobroResponse> ValidarCobro(Guid id)
         {
-            throw new NotImplementedException();
+            Cobro cobro = await _query.ObtenerPorIdAsync(id);
+
+            if (cobro == null)
+            {
+                throw new Exception("Cobro no encontrado.");
+            }
+
+            // Cambiamos el estado a confirmado
+            cobro.Estado = EstadoCobro.Confirmada;
+
+            await _command.ModificarAsync(cobro);
+
+            return Mapear(cobro);
         }
 
+        // Generar recibo pendiente de implementación
         public Task<CobroResponse> GenerarReciboDeCobro(Guid id)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(
+                "Falta implementar la generación de recibos.");
         }
 
+        // Imprimir cobro pendiente de implementación
         public Task<CobroResponse> ImprimirCobro(Guid id)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(
+                "Falta implementar la impresión del cobro.");
         }
 
+        // Pendiente de implementación
         public Task<CobroResponse> ModificarCobro(Guid id)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(
+                "Falta agregar CobroRequest al método.");
         }
 
+        // Pendiente de revisión
         public Task<CobroResponse> RealizarCobro(Guid id)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(
+                "Método pendiente de revisión.");
         }
 
+        // Pendiente de revisión
         public Task<CobroResponse> RegistrarCobro(Guid id)
         {
-            throw new NotImplementedException();
+            throw new NotImplementedException(
+                "Método pendiente de revisión.");
         }
 
-        public Task<CobroResponse> RegistrarCobro(CobroRequest request)
+        // Pendiente de implementación
+        public Task<CobroResponse> ConsultarCobroPorFecha(
+            DateTime fecha)
         {
             throw new NotImplementedException();
         }
 
-        public Task<CobroResponse> ValidarCobro(Guid id)
+        // Pendiente de implementación
+        public Task<CobroResponse> ConsultarCobroPorReserva(
+            Guid id)
         {
             throw new NotImplementedException();
+        }
+
+        // Pendiente de implementación
+        public Task<CobroResponse> ConsultarCobroPorUsuario(
+            Guid id)
+        {
+            throw new NotImplementedException();
+        }
+
+        // Convierte una entidad Cobro en CobroResponse
+        private CobroResponse Mapear(Cobro cobro)
+        {
+            CobroResponse respuesta =
+                new CobroResponse();
+
+            respuesta.Id = cobro.Id;
+            respuesta.MontoOriginal = cobro.MontoOriginal;
+            respuesta.MontoFinal = cobro.MontoFinal;
+            respuesta.Fecha = cobro.Fecha;
+
+            // Convertimos el Enum a texto
+            respuesta.Estado =
+                cobro.Estado.ToString();
+
+            respuesta.MedioPago = cobro.MedioPago;
+            respuesta.ReferenciaId = cobro.ReferenciaId;
+
+            return respuesta;
         }
     }
 }

@@ -1,64 +1,128 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Interfaces;
+﻿using Application.Interfaces;
 using Application.Models.Request;
 using Application.Models.Response;
+using Domain.Entities;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace Application.UseCases
 {
+    // Servicio encargado de manejar todas las operaciones relacionadas con Usuarios
     public class ServiceUsuario : IServiceUsuario
     {
-        private readonly IQueryUsuario _query;     
+        // Query se utiliza para consultar información
+        private readonly IQueryUsuario _query;
+
+        // Command se utiliza para guardar, modificar y eliminar información
         private readonly ICommandUsuario _command;
 
-        public ServiceUsuario(IQueryUsuario query, ICommandUsuario command) 
+        // Constructor
+        public ServiceUsuario(IQueryUsuario query, ICommandUsuario command)
         {
             _query = query;
             _command = command;
-
         }
 
-        public Task<UsuarioResponse> ConsultarUsuario(Guid id)
+        // Consulta un usuario por Id
+        public async Task<UsuarioResponse> ConsultarUsuario(Guid id)
         {
-            throw new NotImplementedException();
+            Usuario usuario = await _query.ObtenerPorIdAsync(id);
+
+            if (usuario == null)
+            {
+                throw new Exception("El usuario no existe.");
+            }
+
+            return Mapear(usuario);
         }
 
-        public Task<IList<UsuarioResponse>> ConsultarUsuarios()
+        // Consulta todos los usuarios
+        public async Task<IList<UsuarioResponse>> ConsultarUsuarios()
         {
-            throw new NotImplementedException();
+            IList<Usuario> usuarios = await _query.ObtenerTodosAsync();
+
+            List<UsuarioResponse> listaUsuarios = new List<UsuarioResponse>();
+
+            foreach (Usuario usuario in usuarios)
+            {
+                listaUsuarios.Add(Mapear(usuario));
+            }
+
+            return listaUsuarios;
         }
 
-        public Task<UsuarioResponse> EliminarUsuario()
+        // Registra un nuevo usuario
+        public async Task<UsuarioResponse> Registrar(UsuarioRequest request)
         {
-            throw new NotImplementedException();
+            // Validación simple
+            if (string.IsNullOrWhiteSpace(request.Email))
+            {
+                throw new Exception("El email es obligatorio.");
+            }
+
+            Usuario nuevoUsuario = new Usuario();
+
+            nuevoUsuario.Nombre = request.Nombre;
+            nuevoUsuario.Direccion = request.Direccion;
+            nuevoUsuario.Telefono = request.Telefono;
+            nuevoUsuario.Email = request.Email;
+
+            await _command.AgregarAsync(nuevoUsuario);
+
+            return Mapear(nuevoUsuario);
         }
 
-        public Task<UsuarioResponse> EliminarUsuario(Guid id)
+        // Modifica un usuario existente
+        public async Task<UsuarioResponse> ModificarUsuario(Guid id, UsuarioRequest request)
         {
-            throw new NotImplementedException();
+            Usuario usuarioExistente = await _query.ObtenerPorIdAsync(id);
+
+            if (usuarioExistente == null)
+            {
+                throw new Exception("El usuario que intenta modificar no existe.");
+            }
+
+            usuarioExistente.Nombre = request.Nombre;
+            usuarioExistente.Direccion = request.Direccion;
+            usuarioExistente.Telefono = request.Telefono;
+            usuarioExistente.Email = request.Email;
+
+            await _command.ModificarAsync(usuarioExistente);
+
+            return Mapear(usuarioExistente);
         }
 
-        public Task<UsuarioResponse> ModificarUsuario()
+        // Elimina un usuario
+        public async Task<UsuarioResponse> EliminarUsuario(Guid id)
         {
-            throw new NotImplementedException();
+            Usuario usuario = await _query.ObtenerPorIdAsync(id);
+
+            if (usuario == null)
+            {
+                throw new Exception("El usuario que intenta eliminar no existe.");
+            }
+
+            await _command.EliminarAsync(id);
+
+            return Mapear(usuario);
         }
 
-        public Task<UsuarioResponse> ModificarUsuario(Guid id, UsuarioRequest request)
-        {
-            throw new NotImplementedException();
-        }
 
-        public Task<UsuarioResponse> Registrar()
+        // Método privado que convierte una entidad Usuario
+        // en un objeto UsuarioResponse
+        private UsuarioResponse Mapear(Usuario usuario)
         {
-            throw new NotImplementedException();
-        }
+            UsuarioResponse respuesta = new UsuarioResponse();
 
-        public Task<UsuarioResponse> Registrar(UsuarioRequest request)
-        {
-            throw new NotImplementedException();
+            respuesta.Id = usuario.Id;
+            respuesta.Nombre = usuario.Nombre;
+            respuesta.Direccion = usuario.Direccion;
+            respuesta.Telefono = usuario.Telefono;
+            respuesta.Email = usuario.Email;
+
+            return respuesta;
         }
     }
 }

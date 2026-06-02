@@ -4,11 +4,11 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
-    public interface ICommandUsuario
+    public interface ICommandCobro
     {
-        Task AgregarAsync(Usuario usuario);
+        Task AgregarAsync(Cobro cobro);
 
-        Task ModificarAsync(Usuario usuario);
+        Task ModificarAsync(Cobro cobro);
 
         Task EliminarAsync(Guid id);
     }

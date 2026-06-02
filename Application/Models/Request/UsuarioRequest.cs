@@ -11,7 +11,7 @@ namespace Application.Models.Request
         public string? Nombre { get; set; }
         public string? Direccion { get; set; }
         public string? Telefono { get; set; }
-        public string Email { get; set; } // OBLIGATORIO según requerimiento
+        public string Email { get; set; } // ¡NUEVO! Obligatorio
         public int? Edad { get; set; }
         public string? Password { get; set; }
 

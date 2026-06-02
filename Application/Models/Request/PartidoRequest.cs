@@ -13,6 +13,6 @@ namespace Application.Models.Request
         public string? EquipoVisitante { get; set; }
         public int GolesLocal { get; set; }
         public int GolesVisitante { get; set; }
-        public Guid CompetenciaId { get; set; }
+        public Guid CompetenciaId { get; set; } // ¡NUEVO! Vital para sumar puntos
     }
 }
