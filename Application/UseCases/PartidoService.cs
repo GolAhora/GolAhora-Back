@@ -8,6 +8,7 @@ using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.UseCases
@@ -40,7 +41,7 @@ namespace Application.UseCases
         public async Task<IList<PartidoResponse>> ConsultarPartidos()
         {
             var partidos = await _query.ObtenerTodosAsync();
-
+  
             // Magia LINQ: Traducimos toda la lista a Response en un solo paso
             return partidos.Select(Mapear).ToList();
         }
@@ -85,7 +86,7 @@ namespace Application.UseCases
             await _command.ModificarAsync(partidoExistente);
 
             return Mapear(partidoExistente);
-        }
+}
 
         public async Task<PartidoResponse> EliminarPartido(Guid id)
         {
@@ -96,7 +97,7 @@ namespace Application.UseCases
             await _command.EliminarAsync(id);
 
             return Mapear(partido);
-        }
+                }
 
 
         // --- 2. MÉTODOS PRIVADOS Y REGLAS DE NEGOCIO ---
@@ -118,7 +119,7 @@ namespace Application.UseCases
         private PartidoResponse Mapear(Partido partido)
         {
             return new PartidoResponse
-            {
+        {
                 Id = partido.Id,
                 Fecha = partido.Fecha,
                 EquipoLocal = partido.EquipoLocal,

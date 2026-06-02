@@ -8,7 +8,11 @@ using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Application.Interfaces;
+using Application.Models.Request;
+using Application.Models.Response;
 
 namespace Application.UseCases
 {
@@ -16,14 +20,15 @@ namespace Application.UseCases
     public class UsuarioService : IUsuarioService
     {
         // Herramientas para leer (_query) y escribir (_command) en la base de datos
-        private readonly IQueryUsuario _query;
+        private readonly IQueryUsuario _query;     
         private readonly ICommandUsuario _command;
 
         // Constructor: C# inyecta estas herramientas automáticamente
-        public UsuarioService(IQueryUsuario query, ICommandUsuario command)
+        public UsuarioService(IQueryUsuario query, ICommandUsuario command) 
         {
             _query = query;
             _command = command;
+
         }
 
         // --- 1. MÉTODOS BÁSICOS (CRUD) ---
@@ -51,11 +56,11 @@ namespace Application.UseCases
             if (string.IsNullOrWhiteSpace(request.Email))
             {
                 throw new Exception("El email es obligatorio para registrarse.");
-            }
+        }
 
             // Armamos el usuario nuevo completo en un solo bloque (Object Initializer)
             var nuevoUsuario = new Usuario
-            {
+        {
                 Nombre = request.Nombre,
                 Direccion = request.Direccion,
                 Telefono = request.Telefono,
@@ -102,7 +107,7 @@ namespace Application.UseCases
         private UsuarioResponse Mapear(Usuario usuario)
         {
             return new UsuarioResponse
-            {
+        {
                 Id = usuario.Id,
                 Nombre = usuario.Nombre,
                 Direccion = usuario.Direccion,

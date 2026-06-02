@@ -8,6 +8,7 @@ using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
 
 namespace Application.UseCases
@@ -53,7 +54,7 @@ namespace Application.UseCases
 
             // Armamos el ticket de recibo completo en un solo bloque
             var nuevoRecibo = new Recibo
-            {
+        {
                 CobroId = request.CobroId,
                 FechaEmision = DateTime.Now,
                 NumeroComprobante = numeroAleatorio,
@@ -112,7 +113,7 @@ namespace Application.UseCases
         private ReciboResponse Mapear(Recibo recibo)
         {
             return new ReciboResponse
-            {
+        {
                 Id = recibo.Id,
                 NumeroComprobante = recibo.NumeroComprobante,
                 FechaEmision = recibo.FechaEmision,

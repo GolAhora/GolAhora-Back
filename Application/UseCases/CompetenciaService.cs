@@ -8,7 +8,11 @@ using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Application.Interfaces;
+using Application.Models.Request;
+using Application.Models.Response;
 
 namespace Application.UseCases
 {
@@ -37,7 +41,7 @@ namespace Application.UseCases
             if (competencia == null)
             {
                 throw new Exception("La competencia no existe.");
-            }
+        }
 
             // Traducimos la entidad de la base de datos a un formato seguro para la pantalla
             return Mapear(competencia);
@@ -55,7 +59,7 @@ namespace Application.UseCases
             foreach (var competencia in competencias)
             {
                 listaCompetencias.Add(Mapear(competencia));
-            }
+        }
 
             return listaCompetencias;
         }
@@ -66,11 +70,11 @@ namespace Application.UseCases
             if (request.FechaInicio > request.FechaFin)
             {
                 throw new Exception("La fecha de inicio no puede ser posterior a la fecha de fin.");
-            }
+        }
 
             // Armamos la nueva competencia en un solo bloque ordenado (Object Initializer)
             var nuevaCompetencia = new Competencia
-            {
+        {
                 Nombre = request.Nombre,
                 FechaInicio = request.FechaInicio,
                 FechaFin = request.FechaFin,
@@ -138,7 +142,7 @@ namespace Application.UseCases
 
             // Armamos la "entrada" o "ticket" de inscripción
             var nuevaInscripcion = new Inscripcion
-            {
+        {
                 Id = Guid.NewGuid(), // Generamos un código único nuevo
                 UsuarioId = idUsuario,
                 ReferenciaId = idCompetencia,
@@ -166,7 +170,7 @@ namespace Application.UseCases
 
             // Si lo encontramos, lo borramos
             if (inscripcion != null)
-            {
+        {
                 competencia.Inscripciones.Remove(inscripcion);
                 await _command.ModificarAsync(competencia);
             }
@@ -218,9 +222,9 @@ namespace Application.UseCases
             if (competencia == null) throw new Exception("Competencia no encontrada.");
 
             if (competencia.Inscripciones.Count < 2)
-            {
+        {
                 throw new Exception("Se necesitan al menos 2 inscriptos para armar un fixture.");
-            }
+        }
 
             var inscriptos = competencia.Inscripciones;
 
@@ -229,7 +233,7 @@ namespace Application.UseCases
             for (int i = 0; i < inscriptos.Count; i++)
             {
                 for (int j = i + 1; j < inscriptos.Count; j++)
-                {
+        {
                     var jugador1 = inscriptos[i].UsuarioId;
                     var jugador2 = inscriptos[j].UsuarioId;
 
@@ -259,7 +263,7 @@ namespace Application.UseCases
         private CompetenciaResponse Mapear(Competencia competencia)
         {
             return new CompetenciaResponse
-            {
+        {
                 Id = competencia.Id,
                 Nombre = competencia.Nombre,
                 FechaInicio = competencia.FechaInicio,

@@ -9,7 +9,11 @@ using Domain.Enums;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Application.Interfaces;
+using Application.Models.Request;
+using Application.Models.Response;
 
 namespace Application.UseCases
 {
@@ -26,7 +30,7 @@ namespace Application.UseCases
             _query = query;
             _command = command;
         }
-
+        
         // --- 1. MÉTODOS BÁSICOS (CRUD) ---
 
         public async Task<CanchaResponse> ConsultarCanchaPorId(Guid id)
@@ -36,7 +40,7 @@ namespace Application.UseCases
             if (cancha == null) throw new Exception("La cancha solicitada no existe.");
 
             return Mapear(cancha);
-        }
+        }  
 
         public async Task<IList<CanchaResponse>> ConsultarCanchas()
         {
@@ -143,7 +147,7 @@ namespace Application.UseCases
             cancha.Estado = EstadoCancha.Disponible;
 
             await _command.ModificarAsync(cancha);
-
+            
             return Mapear(cancha);
         }
 
@@ -154,7 +158,7 @@ namespace Application.UseCases
         private CanchaResponse Mapear(Cancha cancha)
         {
             return new CanchaResponse
-            {
+        {
                 Id = cancha.Id,
                 Numero = cancha.Numero,
                 Estado = cancha.Estado.ToString(), // Pasamos el Enum a texto

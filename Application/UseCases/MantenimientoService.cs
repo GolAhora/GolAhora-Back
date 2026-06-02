@@ -8,7 +8,11 @@ using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Application.Interfaces;
+using Application.Models.Request;
+using Application.Models.Response;
 
 namespace Application.UseCases
 {
@@ -38,7 +42,7 @@ namespace Application.UseCases
         }
 
         public async Task<IList<MantenimientoResponse>> ConsultarMantenimientos()
-        {
+    {
             var mantenimientos = await _query.ObtenerTodosAsync();
 
             // Magia LINQ: Traducimos toda la lista a Response en un solo paso
@@ -51,11 +55,11 @@ namespace Application.UseCases
             if (request.HoraInicio >= request.HoraFin)
             {
                 throw new Exception("La hora de inicio debe ser anterior a la hora de fin.");
-            }
+        }
 
             // Armamos el ticket de mantenimiento completo en un solo bloque
             var nuevoMantenimiento = new Mantenimiento
-            {
+        {
                 CanchaId = request.CanchaId,
                 Fecha = request.Fecha,
                 HoraInicio = request.HoraInicio,

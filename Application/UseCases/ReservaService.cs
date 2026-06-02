@@ -8,7 +8,11 @@ using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Application.Interfaces;
+using Application.Models.Request;
+using Application.Models.Response;
 
 namespace Application.UseCases
 {
@@ -77,7 +81,7 @@ namespace Application.UseCases
             if (reservaExistente == null) throw new Exception("La reserva que intenta modificar no existe.");
 
             if (request.HoraInicio >= request.HoraFin)
-            {
+        {
                 throw new Exception("La hora de inicio debe ser anterior a la hora de fin.");
             }
 
@@ -114,7 +118,7 @@ namespace Application.UseCases
         private ReservaResponse Mapear(Reserva reserva)
         {
             return new ReservaResponse
-            {
+        {
                 Id = reserva.Id,
                 UsuarioId = reserva.UsuarioId,
                 CanchaId = reserva.CanchaId,

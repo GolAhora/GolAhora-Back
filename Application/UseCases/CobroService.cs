@@ -8,7 +8,11 @@ using Domain.Entities;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Threading.Tasks;
+using Application.Interfaces;
+using Application.Models.Request;
+using Application.Models.Response;
 
 namespace Application.UseCases
 {
@@ -143,7 +147,7 @@ namespace Application.UseCases
         private CobroResponse Mapear(Cobro cobro)
         {
             return new CobroResponse
-            {
+        {
                 Id = cobro.Id,
                 MontoOriginal = cobro.MontoOriginal,
                 MontoFinal = cobro.MontoFinal,
