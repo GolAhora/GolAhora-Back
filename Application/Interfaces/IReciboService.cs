@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
-    public interface IServiceRecibo
+    public interface IReciboService
     {
         Task<ReciboResponse> ConsultarRecibo(Guid id);
         Task<IList<ReciboResponse>> ConsultarRecibos();

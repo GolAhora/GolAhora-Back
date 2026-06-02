@@ -8,7 +8,7 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces
 {
-    public interface IServiceActividad
+    public interface IActividadService
     {
         Task<ActividadResponse> ProgramarActividad(ActividadRequest request);
         Task<ActividadResponse> ModificarActividad(ActividadRequest request);
