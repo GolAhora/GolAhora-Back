@@ -1,8 +1,8 @@
 using System;
-using Application.Interfaces;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Persistence;
+using Application.Interfaces.Commands;
 
 namespace Infrastructure.Commands
 {
@@ -16,51 +16,32 @@ namespace Infrastructure.Commands
 
      public async Task<Usuario> Registrar(Usuario usuario)
         {
-            Usuario nuevoUsuario = new Usuario
-            {
-                Id = Guid.NewGuid(),
-                Nombre = usuario.Nombre,
-                Email = usuario.Email,
-                Password = usuario.Password
-            };
-            _context.Usuario.Add(nuevoUsuario);
+            await  _context.Usuario.AddAsync(usuario);
             await _context.SaveChangesAsync();
-            return nuevoUsuario;
+            return usuario;
         }
 
 
-    public async Task<Usuario> ModificarUsuario(Guid id, Usuario usuario)
+    public async Task<Usuario?> ModificarUsuario(Guid id, Usuario usuario)
         {
-            Usuario? usuarioEncontrado = await _context.Usuario.FindAsync(id);
-            if (usuarioEncontrado == null)
-            {
-                throw new Exception("Usuario no encontrado");
-            }
-            
-            Usuario usuarioModificado = new Usuario
-            {
+            Usuario? update  = await _context.Usuario.FirstOrDefaultAsync(u => u.Id == id);
+               if (update == null) return null;
+       
+             update.Nombre = usuario.Nombre ?? update.Nombre;
+             update.Email = usuario.Email ?? update.Email;
+             update.Password = usuario.Password ?? update.Password;
+             await _context.SaveChangesAsync();
 
-                Id = id,
-                Nombre = usuario.Nombre ?? usuarioEncontrado.Nombre,
-                Email = usuario.Email ?? usuarioEncontrado.Email,
-                Password = usuario.Password ?? usuarioEncontrado.Password
-            };
-             //  _context.Entry(usuarioEncontrado).CurrentValues.SetValues(usuarioModificado);
-            _context.SaveChanges();
-            return usuarioModificado;
+            return update;
         }
-    public async Task<Usuario> EliminarUsuario(Guid id)
+    public async Task<Usuario?> EliminarUsuario(Guid id)
         {
-            Usuario? usuario = await _context.Usuario.FindAsync(id);
-            if (usuario == null)
-            {
-                throw new Exception("Usuario no encontrado");
-            }
+            Usuario? eliminar = await _context.Usuario.SingleOrDefaultAsync(u => u.Id == id);
+            if (eliminar == null) return null;  
 
-                _context.Usuario.Remove(usuario);
-                _context.SaveChanges();
-
-                return usuario;
+                _context.Usuario.Remove(eliminar);
+                await _context.SaveChangesAsync();
+                return eliminar;
         }
 
      

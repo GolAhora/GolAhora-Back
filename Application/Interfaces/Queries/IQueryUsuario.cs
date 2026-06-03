@@ -7,14 +7,8 @@ namespace Application.Interfaces.Queries
 {
     public interface IQueryUsuario
     {
-        Task<Usuario> ObtenerPorIdAsync(Guid id);
-
-        Task<IList<Usuario>> ObtenerTodosAsync();
-
-        Task<Usuario> EliminarUsuario();
-
-        Task<Usuario> ModificarUsuario();
-
-        Task<Usuario> Registrar();
+        Task<Usuario?> ConsultarUsuarioPorId(Guid id);
+        Task<IList<Usuario>> ConsultarUsuarios();
+        Task<IList<Usuario>?> ConsultarUsuarioPorNombre(string nombre);
     }
 }

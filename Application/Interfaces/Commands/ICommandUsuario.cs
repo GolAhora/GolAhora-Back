@@ -6,10 +6,10 @@ namespace Application.Interfaces.Commands
 {
     public interface ICommandUsuario
     {
-        Task AgregarAsync(Usuario usuario);
+        Task<Usuario> Registrar(Usuario usuario);
 
-        Task ModificarAsync(Usuario usuario);
+        Task<Usuario?> ModificarUsuario(Guid id, Usuario usuario);
 
-        Task EliminarAsync(Guid id);
+        Task<Usuario?> EliminarUsuario(Guid id);
     }
 }
