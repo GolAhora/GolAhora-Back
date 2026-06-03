@@ -1,24 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Domain.Entities
 {
     public class Inscripcion
     {
-        public int Id { get; set; }
+        // FIX 1: Lo pasamos a Guid para mantener el estándar de tu sistema
+        public Guid Id { get; set; }
+
         public Guid UsuarioId { get; set; }
         public Guid ReferenciaId { get; set; }
         public TipoInscripcion TipoInscripcion { get; set; }
+
+        // Esta es la propiedad correcta para la fecha
         public DateTime Fecha { get; set; }
-        public Usuario Usuario { get; set; }
-        public List<Asistencia> Asistencias { get; set; }
+
+        // FIX 2: Apagamos los warnings de nulos y preparamos la lista vacía
+        public Usuario? Usuario { get; set; }
+        public List<Asistencia> Asistencias { get; set; } = new List<Asistencia>();
     }
-}
-public enum TipoInscripcion
-{
-    Actividad = 1,
-    Competencia = 2
+
+    public enum TipoInscripcion
+    {
+        Actividad = 1,
+        Competencia = 2
+    }
 }

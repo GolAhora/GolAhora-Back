@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using Application.Models.Request;
 using Application.Models.Response;
 
-namespace Application.Interfaces
+namespace Application.Interfaces.Services
 {
     public interface IMantenimientoService
     {

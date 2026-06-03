@@ -8,12 +8,20 @@ namespace Domain.Entities
 {
     public class Partido
     {
-        public int Id { get; set; }
+        public Guid Id { get; set; }
+
         public DateTime Fecha { get; set; }
-        public String EquipoLocal { get; set; }
-        public String EquipoVisitante { get; set; }
+
+        public string EquipoLocal { get; set; } = string.Empty;
+
+        public string EquipoVisitante { get; set; } = string.Empty;
+
         public int GolesLocal { get; set; }
+
         public int GolesVisitante { get; set; }
-        public String Resultado { get; set; }
+
+        public string Resultado { get; set; } = string.Empty;
+
+        public Guid CompetenciaId { get; set; }
     }
 }

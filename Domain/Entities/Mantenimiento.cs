@@ -9,15 +9,16 @@ namespace Domain.Entities
     public class Mantenimiento
     {
         public Guid Id { get; set; }
-        public Guid CanchaId { get; set; }  
+        public Guid CanchaId { get; set; }
         public DateTime Fecha { get; set; }
-        public DateTime HoraInicio { get; set; }
-        public DateTime HoraFin { get; set; }  
-        public String Motivo { get; set; }      
-        public Boolean Estado { get; set; }
 
+        // ESTO DA EL ERROR: Asegurate de que digan TimeSpan
+        public TimeSpan HoraInicio { get; set; }
+        public TimeSpan HoraFin { get; set; }
 
+        public string? Motivo { get; set; }
 
-        public Cancha Cancha { get; set; }  
+        // ESTO DA EL ERROR: Asegurate de que diga string, no bool
+        public string? Estado { get; set; }
     }
 }

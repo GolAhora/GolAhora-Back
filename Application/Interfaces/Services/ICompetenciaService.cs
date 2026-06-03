@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Application.Interfaces
+namespace Application.Interfaces.Services
 {
     public interface ICompetenciaService
     {
@@ -19,11 +19,6 @@ namespace Application.Interfaces
         Task<CompetenciaResponse> ConsultarInscriptos();
         Task<CompetenciaResponse> GenerarFixture();
         Task<CompetenciaResponse> ConsultarFixture();
-        Task<CompetenciaResponse> RegistrarPartido();
-        Task<CompetenciaResponse> ConsultarPartidos();
-        Task<CompetenciaResponse> EliminarPartido(Guid id);
-        Task<CompetenciaResponse> ModificarPartido(Guid id, CompetenciaRequest request);
-
 
     }
 }
