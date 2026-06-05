@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Domain.Enums;
 
 namespace Domain.Entities
 {
@@ -23,9 +24,5 @@ namespace Domain.Entities
         public EstadoCompetencia Estado { get; set; }
     }
 
-    public enum EstadoCompetencia
-    {
-        EnCurso = 1,
-        Finalizada = 2
-    }
+ 
 }

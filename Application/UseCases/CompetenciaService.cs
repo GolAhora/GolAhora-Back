@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Application.Interfaces;
 using Application.Models.Request;
 using Application.Models.Response;
+using Domain.Enums;
 
 namespace Application.UseCases
 {
@@ -146,7 +147,7 @@ namespace Application.UseCases
                 Id = Guid.NewGuid(), // Generamos un código único nuevo
                 UsuarioId = idUsuario,
                 ReferenciaId = idCompetencia,
-                TipoInscripcion = TipoInscripcion.Competencia,
+                TipoInscripcion = Domain.Enums.TipoInscripcion.Competencia,
                 Fecha = DateTime.Now
             };
 

@@ -18,14 +18,14 @@ using Application.Models.Response;
 namespace Application.UseCases
 {
     // Servicio encargado de ser el "cerebro" de las Canchas
-    public class ServiceCancha : ICanchaService
+    public class CanchaService : ICanchaService
     {
         // Herramientas para leer (_query) y escribir (_command)
         private readonly IQueryCancha _query;
         private readonly ICommandCancha _command;
 
         // Constructor: C# nos inyecta las herramientas al arrancar
-        public ServiceCancha(IQueryCancha query, ICommandCancha command)
+        public CanchaService(IQueryCancha query, ICommandCancha command)
         {
             _query = query;
             _command = command;
@@ -35,7 +35,7 @@ namespace Application.UseCases
 
         public async Task<CanchaResponse> ConsultarCanchaPorId(Guid id)
         {
-            var cancha = await _query.ObtenerPorIdAsync(id);
+            var cancha = await _query.ConsultarCanchaPorId(id);
 
             if (cancha == null) throw new Exception("La cancha solicitada no existe.");
 
@@ -44,7 +44,7 @@ namespace Application.UseCases
 
         public async Task<IList<CanchaResponse>> ConsultarCanchas()
         {
-            var canchas = await _query.ObtenerTodosAsync();
+            var canchas = await _query.ConsultarCanchas();
 
             // Magia de LINQ: Traducimos toda la lista a Response en una sola línea
             return canchas.Select(Mapear).ToList();
@@ -61,14 +61,14 @@ namespace Application.UseCases
                 Estado = EstadoCancha.Disponible
             };
 
-            await _command.AgregarAsync(nuevaCancha);
+            await _command.CrearCancha(nuevaCancha);
 
             return Mapear(nuevaCancha);
         }
 
         public async Task<CanchaResponse> ActualizarCancha(Guid id, CanchaRequest request)
         {
-            var canchaExistente = await _query.ObtenerPorIdAsync(id);
+            var canchaExistente = await _query.ConsultarCanchaPorId(id);
 
             if (canchaExistente == null) throw new Exception("La cancha que intenta modificar no existe.");
 
@@ -76,18 +76,18 @@ namespace Application.UseCases
             canchaExistente.Numero = request.Numero;
             canchaExistente.TipoCanchaId = request.TipoCanchaId;
 
-            await _command.ModificarAsync(canchaExistente);
+            await _command.ModificarCancha(id, canchaExistente);
 
             return Mapear(canchaExistente);
         }
 
         public async Task<CanchaResponse> EliminarCancha(Guid id)
         {
-            var cancha = await _query.ObtenerPorIdAsync(id);
+            var cancha = await _query.ConsultarCanchaPorId(id);
 
             if (cancha == null) throw new Exception("La cancha que intenta eliminar no existe.");
 
-            await _command.EliminarAsync(id);
+            await _command.EliminarCancha(id);
 
             return Mapear(cancha);
         }
@@ -98,59 +98,24 @@ namespace Application.UseCases
         // Nota: Mantenemos el error de tipeo en el nombre (Disponibildiad) para no romper tu Interfaz
         public async Task<bool> ActualizarDisponibildiad(Guid id, bool disponible)
         {
-            var cancha = await _query.ObtenerPorIdAsync(id);
+            var cancha = await _query.ConsultarCanchaPorId(id);
 
             if (cancha == null) return false;
 
             // Truco Senior (Operador Ternario): Si 'disponible' es true, asigna Disponible. Si es false, asigna Ocupada.
             cancha.Estado = disponible ? EstadoCancha.Disponible : EstadoCancha.Ocupada;
 
-            await _command.ModificarAsync(cancha);
+            await _command.ModificarCancha(id, cancha);
 
             return true;
         }
 
         public async Task<bool> ConsultarDisponibildiad(Guid id, bool disponible)
         {
-            var cancha = await _query.ObtenerPorIdAsync(id);
+            bool d = await _query.ConsultarDisponibildiad(id);
 
-            if (cancha == null) throw new Exception("Cancha no encontrada.");
-
-            // Devuelve 'true' si el estado actual es Disponible
-            return cancha.Estado == EstadoCancha.Disponible;
+            return d; 
         }
-
-
-        // --- 3. MÉTODOS DE MANTENIMIENTO ---
-
-        public async Task<CanchaResponse> ProgramarMantenimientoACancha(Guid idCancha, Guid idMantenimiento)
-        {
-            var cancha = await _query.ObtenerPorIdAsync(idCancha);
-
-            if (cancha == null) throw new Exception("Cancha no encontrada.");
-
-            // Cambiamos el estado de la cancha
-            cancha.Estado = EstadoCancha.Mantenimiento;
-
-            await _command.ModificarAsync(cancha);
-
-            return Mapear(cancha);
-        }
-
-        public async Task<CanchaResponse> CancelarMantenimientoACancha(Guid idCancha, Guid idMantenimiento)
-        {
-            var cancha = await _query.ObtenerPorIdAsync(idCancha);
-
-            if (cancha == null) throw new Exception("Cancha no encontrada.");
-
-            // Devolvemos la cancha a su estado operativo
-            cancha.Estado = EstadoCancha.Disponible;
-
-            await _command.ModificarAsync(cancha);
-            
-            return Mapear(cancha);
-        }
-
 
         // --- 4. EL TRADUCTOR PRIVADO (MAPPER) ---
 

@@ -13,6 +13,7 @@ using System.Threading.Tasks;
 using Application.Interfaces;
 using Application.Models.Request;
 using Application.Models.Response;
+using Domain.Enums;
 
 namespace Application.UseCases
 {
@@ -66,7 +67,7 @@ namespace Application.UseCases
                 HoraInicio = request.HoraInicio,
                 HoraFin = request.HoraFin,
                 // Al crearla, asumimos que está confirmada
-                Estado = EstadoReserva.Confirmada
+                Estado = Estado.Confirmada
             };
 
             await _command.AgregarAsync(nuevaReserva);
@@ -104,7 +105,7 @@ namespace Application.UseCases
 
             if (reserva == null) throw new Exception("La reserva que intenta cancelar no existe.");
 
-            reserva.Estado = EstadoReserva.Cancelada;
+            reserva.Estado = Estado.Cancelada;
 
             await _command.ModificarAsync(reserva);
 

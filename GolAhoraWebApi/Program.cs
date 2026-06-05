@@ -1,6 +1,13 @@
 
+using Application.Interfaces.Commands;
+using Application.Interfaces.Queries;
+using Application.Interfaces.Services;
+using Application.UseCases;
 using GolAhoraWebApi.Net.Helpers;
+using Infraestructure.Persistence;
+using Infrastructure.Commands;
 using Infrastructure.Persistence;
+using Infrastructure.Queries;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -24,6 +31,13 @@ connectionString = ConnectionHelper.GetConnectionString(builder.Configuration);
 
 builder.Services.AddDbContext<AppDbContext>(options => options.UseNpgsql(connectionString));
 
+builder.Services.AddScoped<ICanchaService, CanchaService>();
+builder.Services.AddScoped<IQueryCancha, QueryCancha>();
+builder.Services.AddScoped<ICommandCancha, CommandCancha>();
+
+
+
+builder.Services.AddHttpClient();
 
 var app = builder.Build();  
 
@@ -42,6 +56,9 @@ app.UseAuthorization();
 app.UseCors();
 
 app.MapControllers();
+
+await PrepDB.PrepPopulation(app);
+
 
 app.Run();
 

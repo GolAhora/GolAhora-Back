@@ -35,7 +35,7 @@ namespace Application.UseCases
 
         public async Task<UsuarioResponse> ConsultarUsuario(Guid id)
         {
-            var usuario = await _query.ObtenerPorIdAsync(id);
+            var usuario = await _query.ConsultarUsuarioPorId(id);
 
             if (usuario == null) throw new Exception("El usuario no existe.");
 
@@ -44,7 +44,7 @@ namespace Application.UseCases
 
         public async Task<IList<UsuarioResponse>> ConsultarUsuarios()
         {
-            var usuarios = await _query.ObtenerTodosAsync();
+            var usuarios = await _query.ConsultarUsuarios();
 
             // Magia LINQ: Traducimos toda la lista a Response en un solo paso
             return usuarios.Select(Mapear).ToList();
@@ -67,14 +67,14 @@ namespace Application.UseCases
                 Email = request.Email
             };
 
-            await _command.AgregarAsync(nuevoUsuario);
+            await _command.Registrar(nuevoUsuario);
 
             return Mapear(nuevoUsuario);
         }
 
         public async Task<UsuarioResponse> ModificarUsuario(Guid id, UsuarioRequest request)
         {
-            var usuarioExistente = await _query.ObtenerPorIdAsync(id);
+            var usuarioExistente = await _query.ConsultarUsuarioPorId(id);
 
             if (usuarioExistente == null) throw new Exception("El usuario que intenta modificar no existe.");
 
@@ -84,18 +84,18 @@ namespace Application.UseCases
             usuarioExistente.Telefono = request.Telefono;
             usuarioExistente.Email = request.Email;
 
-            await _command.ModificarAsync(usuarioExistente);
+            await _command.ModificarUsuario(id, usuarioExistente);
 
             return Mapear(usuarioExistente);
         }
 
         public async Task<UsuarioResponse> EliminarUsuario(Guid id)
         {
-            var usuario = await _query.ObtenerPorIdAsync(id);
+            var usuario = await _query.ConsultarUsuarioPorId(id);
 
             if (usuario == null) throw new Exception("El usuario que intenta eliminar no existe.");
 
-            await _command.EliminarAsync(id);
+            await _command.EliminarUsuario(id);
 
             return Mapear(usuario);
         }

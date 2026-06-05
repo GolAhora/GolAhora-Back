@@ -13,14 +13,14 @@ using System.Threading.Tasks;
 namespace Application.UseCases
 {
     // Servicio encargado de ser el "cerebro" de las Actividades
-    public class ServiceActividad : IActividadService
+    public class ActividadService : IActividadService
     {
         // Herramientas para leer (_query) y escribir (_command) en la base de datos
         private readonly IQueryActividad _query;
         private readonly ICommandActividad _command;
 
         // Constructor: C# nos inyecta las herramientas al arrancar
-        public ServiceActividad(IQueryActividad query, ICommandActividad command)
+        public ActividadService(IQueryActividad query, ICommandActividad command)
         {
             _query = query;
             _command = command;

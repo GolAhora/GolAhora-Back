@@ -12,7 +12,8 @@ using System.Text;
 using System.Threading.Tasks;
 using Application.Interfaces;
 using Application.Models.Request;
-using Application.Models.Response;
+
+using Domain.Enums;
 
 namespace Application.UseCases
 {
@@ -65,7 +66,7 @@ namespace Application.UseCases
                 MontoFinal = request.MontoFinal,
                 MontoOriginal = request.MontoFinal, // Al nacer, no hay descuentos
                 Fecha = DateTime.Now,
-                Estado = EstadoCobro.Pendiente // Todo cobro nace pendiente hasta que se pague
+                Estado = Estado.Pendiente // Todo cobro nace pendiente hasta que se pague
             };
 
             await _command.AgregarAsync(nuevoCobro);
@@ -111,7 +112,7 @@ namespace Application.UseCases
             if (cobro == null) throw new Exception("Cobro no encontrado.");
 
             // Al validar, el pago ingresó correctamente
-            cobro.Estado = EstadoCobro.Confirmada;
+            cobro.Estado = Estado.Confirmada;
 
             await _command.ModificarAsync(cobro);
 

@@ -1,4 +1,5 @@
 ﻿using System;
+using Domain.Enums;
 
 namespace Domain.Entities
 {
@@ -11,7 +12,7 @@ namespace Domain.Entities
         public TimeSpan HoraInicio { get; set; }
         public TimeSpan HoraFin { get; set; }
 
-        public EstadoReserva Estado { get; set; }
+        public Estado Estado { get; set; }
 
         public Guid CanchaId { get; set; }
         public Guid UsuarioId { get; set; }
@@ -21,10 +22,5 @@ namespace Domain.Entities
         public Cancha? Cancha { get; set; }
     }
 
-    public enum EstadoReserva
-    {
-        Pendiente = 1,
-        Confirmada = 2,
-        Cancelada = 3
-    }
+
 }

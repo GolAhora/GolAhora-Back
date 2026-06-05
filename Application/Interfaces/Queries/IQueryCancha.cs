@@ -7,8 +7,8 @@ namespace Application.Interfaces.Queries
 {
     public interface IQueryCancha
     {
-        Task<Cancha> ObtenerPorIdAsync(Guid id);
-
-        Task<IList<Cancha>> ObtenerTodosAsync();
+        Task<Cancha?> ConsultarCanchaPorId(Guid id);
+        Task<IList<Cancha>> ConsultarCanchas();
+        Task<bool> ConsultarDisponibildiad(Guid id);
     }
 }

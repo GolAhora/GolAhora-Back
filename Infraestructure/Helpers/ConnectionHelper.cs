@@ -1,10 +1,11 @@
-﻿using Npgsql;
+﻿using Microsoft.Extensions.Configuration;
+using Npgsql;
 
 namespace GolAhoraWebApi.Net.Helpers
 {
     public class ConnectionHelper
     {
-        public static string GetConnectionString(IConfiguration configuration)
+        public static string GetConnectionString(IConfigurationRoot configuration)
         {
             var connectionString = configuration.GetConnectionString("DefaultConnection");
             var databaseUrl = Environment.GetEnvironmentVariable("DATABASE_URL");

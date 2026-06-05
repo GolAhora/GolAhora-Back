@@ -1,4 +1,5 @@
 ﻿using System;
+using Domain.Enums;
 
 namespace Domain.Entities
 {
@@ -18,20 +19,10 @@ namespace Domain.Entities
         public decimal MontoOriginal { get; set; }
         public decimal MontoFinal { get; set; }
 
-        public EstadoCobro Estado { get; set; }
+        public Estado Estado { get; set; }
         public Recibo? Recibo { get; set; }
     }
 
-    public enum EstadoCobro
-    {
-        Pendiente = 1,
-        Confirmada = 2, // Lo usaremos cuando el cobro esté "Pagado"
-        Cancelada = 3
-    }
 
-    public enum TipoReferencia
-    {
-        Reserva = 1,
-        Inscripcion = 2
-    }
+
 }

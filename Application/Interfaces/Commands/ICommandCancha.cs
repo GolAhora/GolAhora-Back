@@ -6,10 +6,10 @@ namespace Application.Interfaces.Commands
 {
     public interface ICommandCancha
     {
-        Task AgregarAsync(Cancha cancha);
+        Task<Cancha> CrearCancha(Cancha cancha);
 
-        Task ModificarAsync(Cancha cancha);
+        Task<Cancha?> ModificarCancha(Guid id, Cancha cancha);
 
-        Task EliminarAsync(Guid id);
+        Task<Cancha?> EliminarCancha(Guid id);
     }
 }

@@ -1,8 +1,9 @@
 using System;
-using Application.Interfaces;
 using Domain.Entities;
 using Microsoft.EntityFrameworkCore;
 using Infrastructure.Persistence;
+using Application.Interfaces.Queries;
+using Domain.Enums;
 
 namespace Infrastructure.Queries
 {
@@ -14,13 +15,10 @@ namespace Infrastructure.Queries
             _context = context;
         }
 
-        public async Task<Cancha> ConsultarCanchaPorId(Guid id)
+        public async Task<Cancha?> ConsultarCanchaPorId(Guid id)
         {
-            Cancha? cancha = await _context.Cancha.FindAsync(id);
-            if (cancha == null)
-            {
-                throw new Exception("Cancha no encontrada");
-            }
+            Cancha? cancha = await _context.Cancha.FirstOrDefaultAsync(c => c.Id == id);
+            if (cancha == null)  return null;
 
             return cancha;
 
@@ -29,10 +27,6 @@ namespace Infrastructure.Queries
         public async Task<IList<Cancha>> ConsultarCanchas()
         {
             IList<Cancha> canchas = await _context.Cancha.ToListAsync<Cancha>();
-            if (canchas == null || canchas.Count == 0)
-            {
-                throw new Exception("No se encontraron canchas");
-            }
 
             return canchas;
         }
@@ -41,24 +35,11 @@ namespace Infrastructure.Queries
         {
             Cancha? cancha = await _context.Cancha.FirstOrDefaultAsync(c => c.Id == id);
 
-              if (cancha == null)
-            {
-                throw new Exception("Cancha no encontrada");
-            }
+              if (cancha == null) return false;
 
-           return cancha.Disponible;
+               return cancha.Estado == EstadoCancha.Disponible;
         }
 
-        public async Task<Cancha> ConsultarMantenimientoDeCancha(Guid id)
-        {
-            Cancha? cancha = await _context.Cancha.Include(c => );
-            if (cancha == null)
-            {
-                throw new Exception("Cancha no encontrada");
-            }
-
-            return cancha;
-        }
     }
 
 

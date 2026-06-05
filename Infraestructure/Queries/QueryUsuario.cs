@@ -17,7 +17,6 @@ namespace Infrastructure.Queries
         public async Task<Usuario?> ConsultarUsuarioPorId(Guid id)
         {
             Usuario? usuario = await  _context.Usuario.SingleOrDefaultAsync(u => u.Id == id);
-         
             return usuario; 
 
         }

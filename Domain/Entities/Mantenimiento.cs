@@ -18,6 +18,8 @@ namespace Domain.Entities
 
         public string? Motivo { get; set; }
 
+        public Cancha Cancha { get; set; }
+
         // ESTO DA EL ERROR: Asegurate de que diga string, no bool
         public string? Estado { get; set; }
     }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Domain.Enums;
 
 namespace Domain.Entities
 {
@@ -20,9 +21,5 @@ namespace Domain.Entities
         public List<Asistencia> Asistencias { get; set; } = new List<Asistencia>();
     }
 
-    public enum TipoInscripcion
-    {
-        Actividad = 1,
-        Competencia = 2
-    }
+
 }
