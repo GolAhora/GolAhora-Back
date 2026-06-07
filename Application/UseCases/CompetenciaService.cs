@@ -124,14 +124,6 @@ namespace Application.UseCases
         }
 
 
-        // --- 2. MÉTODOS DE INSCRIPCIÓN ---
-
-        // Nota: Dejé este método por si tu interfaz lo exige, pero hace lo mismo que InscribirUsuario
-        public async Task<CompetenciaResponse> AgregarUsuarioACompetencia(Guid idCompetencia, Guid idUsuario)
-        {
-            return await InscribirUsuario(idCompetencia, idUsuario);
-        }
-
         public async Task<CompetenciaResponse> InscribirUsuario(Guid idCompetencia, Guid idUsuario)
         {
             var competencia = await _query.ObtenerPorIdAsync(idCompetencia);
