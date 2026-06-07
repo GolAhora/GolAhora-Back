@@ -10,5 +10,6 @@ namespace Application.Interfaces.Queries
         Task<Reserva> ObtenerPorIdAsync(Guid id);
 
         Task<IList<Reserva>> ObtenerTodosAsync();
+        Task<IList<Reserva>>  ConsultarReservasCancha(Guid idCancha);
     }
 }

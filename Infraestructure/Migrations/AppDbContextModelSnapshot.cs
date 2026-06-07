@@ -44,7 +44,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("interval");
 
                     b.Property<string>("Nombre")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.HasKey("Id");
 
@@ -108,24 +110,24 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("8b75342d-0383-4373-b491-62d33d147a85"),
+                            Id = new Guid("b454091c-9f0d-44a9-9a0b-97fc1efd3ddb"),
                             Estado = 1,
                             Numero = 1,
-                            TipoCanchaId = new Guid("07b1c93c-8de0-44fe-b4a8-f6e457e578b6")
+                            TipoCanchaId = new Guid("02b1c362-9287-4962-b62b-b26204792f97")
                         },
                         new
                         {
-                            Id = new Guid("8f1b01b8-f209-479f-adb6-03b13fafff37"),
+                            Id = new Guid("21bbc35e-531b-47cf-a3fb-0ec1c492a3b8"),
                             Estado = 1,
                             Numero = 2,
-                            TipoCanchaId = new Guid("07b1c93c-8de0-44fe-b4a8-f6e457e578b6")
+                            TipoCanchaId = new Guid("02b1c362-9287-4962-b62b-b26204792f97")
                         },
                         new
                         {
-                            Id = new Guid("209b8786-0c92-490f-b08d-9b8a3447125c"),
+                            Id = new Guid("7d07e8a4-702c-4ec1-b964-825e19e6f882"),
                             Estado = 3,
                             Numero = 3,
-                            TipoCanchaId = new Guid("db87cde9-1127-4d33-9e6f-75dc038e2fa7")
+                            TipoCanchaId = new Guid("120a32e0-cca8-49a8-bbaa-26be18b3b081")
                         });
                 });
 
@@ -142,6 +144,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("timestamp with time zone");
 
                     b.Property<string>("MedioPago")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<decimal>("MontoFinal")
@@ -159,6 +162,35 @@ namespace Infrastructure.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Cobro");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Competencia", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("Estado")
+                        .HasColumnType("integer");
+
+                    b.Property<DateTime>("FechaFin")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<DateTime>("FechaInicio")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("Nombre")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ReglamentoInterno")
+                        .HasColumnType("text");
+
+                    b.Property<string>("ReglamentoOficial")
+                        .HasColumnType("text");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("Competencia");
                 });
 
             modelBuilder.Entity("Domain.Entities.Descuento", b =>
@@ -191,6 +223,9 @@ namespace Infrastructure.Migrations
                     b.Property<Guid?>("ActividadId")
                         .HasColumnType("uuid");
 
+                    b.Property<Guid?>("CompetenciaId")
+                        .HasColumnType("uuid");
+
                     b.Property<DateTime>("Fecha")
                         .HasColumnType("timestamp with time zone");
 
@@ -207,6 +242,8 @@ namespace Infrastructure.Migrations
 
                     b.HasIndex("ActividadId");
 
+                    b.HasIndex("CompetenciaId");
+
                     b.HasIndex("UsuarioId");
 
                     b.ToTable("Inscripcion");
@@ -222,6 +259,7 @@ namespace Infrastructure.Migrations
                         .HasColumnType("uuid");
 
                     b.Property<string>("Estado")
+                        .IsRequired()
                         .HasColumnType("text");
 
                     b.Property<DateTime>("Fecha")
@@ -234,7 +272,9 @@ namespace Infrastructure.Migrations
                         .HasColumnType("interval");
 
                     b.Property<string>("Motivo")
-                        .HasColumnType("text");
+                        .IsRequired()
+                        .HasMaxLength(250)
+                        .HasColumnType("character varying(250)");
 
                     b.HasKey("Id");
 
@@ -286,33 +326,37 @@ namespace Infrastructure.Migrations
 
                     b.Property<string>("Direccion")
                         .IsRequired()
-                        .HasColumnType("text");
-
-                    b.Property<string>("Discriminator")
-                        .IsRequired()
-                        .HasMaxLength(8)
-                        .HasColumnType("character varying(8)");
+                        .HasMaxLength(200)
+                        .HasColumnType("character varying(200)");
 
                     b.Property<int>("Edad")
                         .HasColumnType("integer");
 
                     b.Property<string>("Email")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Nombre")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(100)
+                        .HasColumnType("character varying(100)");
 
                     b.Property<string>("Telefono")
                         .IsRequired()
-                        .HasColumnType("text");
+                        .HasMaxLength(20)
+                        .HasColumnType("character varying(20)");
+
+                    b.Property<string>("TipoPersona")
+                        .IsRequired()
+                        .HasMaxLength(13)
+                        .HasColumnType("character varying(13)");
 
                     b.HasKey("Id");
 
                     b.ToTable("Persona");
 
-                    b.HasDiscriminator<string>("Discriminator").HasValue("Persona");
+                    b.HasDiscriminator<string>("TipoPersona").HasValue("PersonaBase");
 
                     b.UseTphMappingStrategy();
                 });
@@ -365,6 +409,8 @@ namespace Infrastructure.Migrations
                         .HasColumnType("text");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CobroId");
 
                     b.ToTable("Reembolso");
                 });
@@ -432,7 +478,7 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("07b1c93c-8de0-44fe-b4a8-f6e457e578b6"),
+                            Id = new Guid("02b1c362-9287-4962-b62b-b26204792f97"),
                             Capacidad = 10,
                             DuracionMax = 2.0,
                             Nombre = "Futbol 5",
@@ -441,7 +487,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("db87cde9-1127-4d33-9e6f-75dc038e2fa7"),
+                            Id = new Guid("120a32e0-cca8-49a8-bbaa-26be18b3b081"),
                             Capacidad = 22,
                             DuracionMax = 2.0,
                             Nombre = "Futbol 11",
@@ -450,16 +496,30 @@ namespace Infrastructure.Migrations
                         });
                 });
 
+            modelBuilder.Entity("Domain.Entities.Entrenador", b =>
+                {
+                    b.HasBaseType("Domain.Entities.Persona");
+
+                    b.HasDiscriminator().HasValue("Entrenador");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Profesor", b =>
+                {
+                    b.HasBaseType("Domain.Entities.Persona");
+
+                    b.HasDiscriminator().HasValue("Profesor");
+                });
+
             modelBuilder.Entity("Domain.Entities.Usuario", b =>
                 {
                     b.HasBaseType("Domain.Entities.Persona");
 
-                    b.Property<DateTime>("FechaRegistro")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("Password")
+                    b.Property<string>("ClerkId")
                         .IsRequired()
                         .HasColumnType("text");
+
+                    b.Property<DateTime>("FechaRegistro")
+                        .HasColumnType("timestamp with time zone");
 
                     b.HasDiscriminator().HasValue("Usuario");
                 });
@@ -469,7 +529,7 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Cancha", "Cancha")
                         .WithMany("Actividades")
                         .HasForeignKey("CanchaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cancha");
@@ -480,7 +540,7 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Actividad", "Actividad")
                         .WithMany()
                         .HasForeignKey("ActividadId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Inscripcion", null)
@@ -490,7 +550,7 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Persona", "Persona")
                         .WithMany()
                         .HasForeignKey("PersonaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Actividad");
@@ -515,6 +575,10 @@ namespace Infrastructure.Migrations
                         .WithMany("Inscripciones")
                         .HasForeignKey("ActividadId");
 
+                    b.HasOne("Domain.Entities.Competencia", null)
+                        .WithMany("Inscripciones")
+                        .HasForeignKey("CompetenciaId");
+
                     b.HasOne("Domain.Entities.Usuario", "Usuario")
                         .WithMany()
                         .HasForeignKey("UsuarioId")
@@ -529,7 +593,7 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Cancha", "Cancha")
                         .WithMany("Mantenimientos")
                         .HasForeignKey("CanchaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cancha");
@@ -540,10 +604,19 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Cobro", "Cobro")
                         .WithOne("Recibo")
                         .HasForeignKey("Domain.Entities.Recibo", "CobroId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cobro");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Reembolso", b =>
+                {
+                    b.HasOne("Domain.Entities.Cobro", null)
+                        .WithMany()
+                        .HasForeignKey("CobroId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("Domain.Entities.Reserva", b =>
@@ -551,13 +624,13 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Cancha", "Cancha")
                         .WithMany("Reservas")
                         .HasForeignKey("CanchaId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.HasOne("Domain.Entities.Usuario", "Usuario")
                         .WithMany("Reservas")
                         .HasForeignKey("UsuarioId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Cancha");
@@ -582,6 +655,11 @@ namespace Infrastructure.Migrations
             modelBuilder.Entity("Domain.Entities.Cobro", b =>
                 {
                     b.Navigation("Recibo");
+                });
+
+            modelBuilder.Entity("Domain.Entities.Competencia", b =>
+                {
+                    b.Navigation("Inscripciones");
                 });
 
             modelBuilder.Entity("Domain.Entities.Inscripcion", b =>

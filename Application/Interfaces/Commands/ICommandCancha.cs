@@ -8,7 +8,7 @@ namespace Application.Interfaces.Commands
     {
         Task<Cancha> CrearCancha(Cancha cancha);
 
-        Task<Cancha?> ModificarCancha(Guid id, Cancha cancha);
+        Task<Cancha> ModificarCancha(Guid id, Cancha cancha);
 
         Task<Cancha?> EliminarCancha(Guid id);
     }

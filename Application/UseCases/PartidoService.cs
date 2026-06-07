@@ -14,14 +14,14 @@ using System.Threading.Tasks;
 namespace Application.UseCases
 {
     // Servicio encargado de ser el "cerebro" de los Partidos
-    public class ServicePartido : IServicePartido
+    public class PartidoService : IPartidoService
     {
         // Herramientas para leer (_query) y escribir (_command) en la base de datos
         private readonly IQueryPartido _query;
         private readonly ICommandPartido _command;
 
         // Constructor: C# inyecta estas herramientas automáticamente
-        public ServicePartido(IQueryPartido query, ICommandPartido command)
+        public PartidoService(IQueryPartido query, ICommandPartido command)
         {
             _query = query;
             _command = command;

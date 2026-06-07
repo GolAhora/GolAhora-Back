@@ -12,6 +12,8 @@ namespace Application.Interfaces.Services
         Task<ReservaResponse> ModificarReserva(Guid id, ReservaRequest request);
         Task<ReservaResponse> CancelarReserva(Guid id);
         Task<ReservaResponse> ConsultarReserva(Guid id);
+
+         Task<IList<ReservaResponse>> ConsultarReservasCancha(Guid idCancha);
         Task<IList<ReservaResponse>> ConsultarReservas();
     }
 }

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Application.Interfaces.Services
 {
-    public interface IServicePartido
+    public interface IPartidoService
     {
         Task<PartidoResponse> RegistrarPartido(PartidoRequest request);
 

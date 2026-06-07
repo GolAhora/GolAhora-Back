@@ -10,21 +10,18 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Application.Interfaces;
-using Application.Models.Request;
-using Application.Models.Response;
 
 namespace Application.UseCases
 {
     // Servicio encargado de ser el "cerebro" de los Mantenimientos de las canchas
-    public class ServiceMantenimiento : IMantenimientoService
+    public class MantenimientoService : IMantenimientoService
     {
         // Herramientas para leer (_query) y escribir (_command) en la base de datos
         private readonly IQueryMantenimiento _query;
         private readonly ICommandMantenimiento _command;
 
         // Constructor: C# inyecta estas herramientas automáticamente
-        public ServiceMantenimiento(IQueryMantenimiento query, ICommandMantenimiento command)
+        public MantenimientoService(IQueryMantenimiento query, ICommandMantenimiento command)
         {
             _query = query;
             _command = command;

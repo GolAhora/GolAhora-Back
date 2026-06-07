@@ -6,26 +6,19 @@ using Application.Models.Request;
 using Application.Models.Response;
 using Domain.Entities;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using Application.Interfaces;
-using Application.Models.Request;
-using Application.Models.Response;
+
 using Domain.Enums;
 
 namespace Application.UseCases
 {
-    // Servicio encargado de ser el "cerebro" de las Reservas
-    public class ServiceReserva : IReservaService
+
+    public class ReservaService : IReservaService
     {
-        // Herramientas para leer (_query) y escribir (_command) en la base de datos
+
         private readonly IQueryReserva _query;
         private readonly ICommandReserva _command;
 
-        // Constructor: C# inyecta estas herramientas automáticamente
-        public ServiceReserva(IQueryReserva query, ICommandReserva command)
+        public ReservaService(IQueryReserva query, ICommandReserva command)
         {
             _query = query;
             _command = command;
@@ -48,6 +41,15 @@ namespace Application.UseCases
 
             // Magia LINQ: Traducimos toda la lista a Response en un solo paso
             return reservas.Select(Mapear).ToList();
+        }
+
+        public async Task<IList<ReservaResponse>> ConsultarReservasCancha(Guid idCancha)
+        {
+            var reservas = await _query.ConsultarReservasCancha(idCancha);
+
+            return reservas
+                .Select(Mapear)
+                .ToList();
         }
 
         public async Task<ReservaResponse> CrearReserva(ReservaRequest request)
@@ -113,21 +115,36 @@ namespace Application.UseCases
         }
 
 
-        // --- 2. EL TRADUCTOR PRIVADO (MAPPER) ---
-
-        // Convierte la entidad de la BD en un objeto de respuesta seguro para la pantalla
         private ReservaResponse Mapear(Reserva reserva)
+{
+    return new ReservaResponse
+    {
+        Id = reserva.Id,
+        Fecha = reserva.Fecha,
+        HoraInicio = reserva.HoraInicio,
+        HoraFin = reserva.HoraFin,
+        Estado = reserva.Estado,
+        UsuarioId = reserva.UsuarioId,
+
+        Cancha = reserva.Cancha == null ? null : new CanchaResponse
         {
-            return new ReservaResponse
-        {
-                Id = reserva.Id,
-                UsuarioId = reserva.UsuarioId,
-                CanchaId = reserva.CanchaId,
-                Fecha = reserva.Fecha,
-                HoraInicio = reserva.HoraInicio,
-                HoraFin = reserva.HoraFin,
-                Estado = reserva.Estado.ToString() // Convertimos el Enum a texto
-            };
+            Id = reserva.Cancha.Id,
+            Numero = reserva.Cancha.Numero,
+            Estado = reserva.Cancha.Estado,
+
+            TipoCancha =  new TipoCanchaResponse
+            {
+                Id = reserva.Cancha.TipoCancha.Id,
+                Nombre = reserva.Cancha.TipoCancha.Nombre,
+                Capacidad = reserva.Cancha.TipoCancha.Capacidad,
+                DuracionMax = reserva.Cancha.TipoCancha.DuracionMax,
+                PrecioBaseHora = reserva.Cancha.TipoCancha.PrecioBaseHora,
+                Superficie = reserva.Cancha.TipoCancha.Superficie
+            }
         }
+    };
+}
+
+
     }
 }

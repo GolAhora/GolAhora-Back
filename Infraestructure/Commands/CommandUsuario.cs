@@ -29,7 +29,6 @@ namespace Infrastructure.Commands
        
              update.Nombre = usuario.Nombre ?? update.Nombre;
              update.Email = usuario.Email ?? update.Email;
-             update.Password = usuario.Password ?? update.Password;
              await _context.SaveChangesAsync();
 
             return update;

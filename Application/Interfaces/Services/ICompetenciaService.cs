@@ -14,8 +14,9 @@ namespace Application.Interfaces.Services
         Task<CompetenciaResponse> OrganizarCompetencia(CompetenciaRequest request);
         Task<CompetenciaResponse> ModificarCompetencia(Guid id, CompetenciaRequest request);
         Task<CompetenciaResponse> EliminarCompetencia(Guid id);
+       Task<IList<CompetenciaResponse>> ConsultarCompetencias();
         Task<CompetenciaResponse> ConsultarCompetencia(Guid id);
-        Task<IList<CompetenciaResponse>> IncribirUsario();
+        Task<bool> IncribirUsario(Guid idCompetencia, Guid idUsuario);
         Task<CompetenciaResponse> ConsultarInscriptos();
         Task<CompetenciaResponse> GenerarFixture();
         Task<CompetenciaResponse> ConsultarFixture();

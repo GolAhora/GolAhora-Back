@@ -14,14 +14,14 @@ using System.Threading.Tasks;
 namespace Application.UseCases
 {
     // Servicio encargado de ser el "cerebro" de los Recibos
-    public class ServiceRecibo : IReciboService
+    public class ReciboService : IReciboService
     {
         // Herramientas para leer (_query) y escribir (_command) en la base de datos
         private readonly IQueryRecibo _query;
         private readonly ICommandRecibo _command;
 
         // Constructor: C# inyecta estas herramientas automáticamente
-        public ServiceRecibo(IQueryRecibo query, ICommandRecibo command)
+        public ReciboService(IQueryRecibo query, ICommandRecibo command)
         {
             _query = query;
             _command = command;

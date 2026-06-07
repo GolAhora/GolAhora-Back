@@ -62,6 +62,7 @@ namespace Infrastructure.Persistence
         public DbSet<Cobro> Cobro { get; set; }
         public DbSet<Recibo> Recibo { get; set; }
         public DbSet<Reembolso> Reembolso { get; set; }
+         public DbSet<Competencia> Competencia { get; set; }
         public DbSet<Descuento> Descuento { get; set; }
         public DbSet<Partido> Partido { get; set; }
 
@@ -92,174 +93,173 @@ namespace Infrastructure.Persistence
 
      
 
-
             //// --- Configuración de Actividad ---
-            //modelBuilder.Entity<Actividad>(entity =>
-            //{
-            //    entity.HasKey(a => a.Id);
-            //    entity.Property(a => a.Id).ValueGeneratedOnAdd();
+            modelBuilder.Entity<Actividad>(entity =>
+            {
+               entity.HasKey(a => a.Id);
+               entity.Property(a => a.Id).ValueGeneratedOnAdd();
 
-            //    entity.Property(a => a.Nombre).HasMaxLength(100).IsRequired();
-            //    entity.Property(a => a.Fecha).IsRequired();
-            //    entity.Property(a => a.CupoMaximo).IsRequired();
+               entity.Property(a => a.Nombre).HasMaxLength(100).IsRequired();
+               entity.Property(a => a.Fecha).IsRequired();
+               entity.Property(a => a.CupoMaximo).IsRequired();
 
-            //    entity.HasOne(a => a.Cancha)
-            //          .WithMany(c => c.Actividades)
-            //          .HasForeignKey(a => a.CanchaId)
-            //          .OnDelete(DeleteBehavior.Restrict);
-            //});
+               entity.HasOne(a => a.Cancha)
+                     .WithMany(c => c.Actividades)
+                     .HasForeignKey(a => a.CanchaId)
+                     .OnDelete(DeleteBehavior.Restrict);
+            });
 
-            //// --- Configuración de Persona (y Herencia TPH) ---
-            //modelBuilder.Entity<Persona>(entity =>
-            //{
-            //    entity.HasKey(p => p.Id);
-            //    entity.Property(p => p.Id).ValueGeneratedOnAdd();
+            // --- Configuración de Persona (y Herencia TPH) ---
+            modelBuilder.Entity<Persona>(entity =>
+            {
+               entity.HasKey(p => p.Id);
+               entity.Property(p => p.Id).ValueGeneratedOnAdd();
 
-            //    entity.Property(p => p.Nombre).HasMaxLength(100).IsRequired();
-            //    entity.Property(p => p.Edad).IsRequired();
-            //    entity.Property(p => p.Direccion).HasMaxLength(200).IsRequired();
-            //    entity.Property(p => p.Email).HasMaxLength(100).IsRequired();
-            //    entity.Property(p => p.Telefono).HasMaxLength(20).IsRequired();
+               entity.Property(p => p.Nombre).HasMaxLength(100).IsRequired();
+               entity.Property(p => p.Edad).IsRequired();
+               entity.Property(p => p.Direccion).HasMaxLength(200).IsRequired();
+               entity.Property(p => p.Email).HasMaxLength(100).IsRequired();
+               entity.Property(p => p.Telefono).HasMaxLength(20).IsRequired();
 
-            //    // Fundamental para que Persona y Usuario compartan tabla sin romper la BD.
-            //    entity.HasDiscriminator<string>("TipoPersona")
-            //          .HasValue<Persona>("PersonaBase")
-            //          .HasValue<Usuario>("Usuario")
-            //          .HasValue<Profesor>("Profesor")
-            //          .HasValue<Entrenador>("Entrenador");
-            //});
+               // Fundamental para que Persona y Usuario compartan tabla sin romper la BD.
+               entity.HasDiscriminator<string>("TipoPersona")
+                     .HasValue<Persona>("PersonaBase")
+                     .HasValue<Usuario>("Usuario")
+                     .HasValue<Profesor>("Profesor")
+                     .HasValue<Entrenador>("Entrenador");
+            });
 
-            //// --- Configuración de Asistencia ---
-            //modelBuilder.Entity<Asistencia>(entity =>
-            //{
-            //    entity.HasKey(asist => asist.Id);
-            //    entity.Property(asist => asist.Id).ValueGeneratedOnAdd();
-            //    entity.Property(asist => asist.FechaHorario).IsRequired();
+            // --- Configuración de Asistencia ---
+            modelBuilder.Entity<Asistencia>(entity =>
+            {
+               entity.HasKey(asist => asist.Id);
+               entity.Property(asist => asist.Id).ValueGeneratedOnAdd();
+               entity.Property(asist => asist.FechaHorario).IsRequired();
 
-            //    // Relación con Persona
-            //    entity.HasOne(asist => asist.Persona)
-            //          .WithMany()
-            //          .HasForeignKey(asist => asist.PersonaId)
-            //          .OnDelete(DeleteBehavior.Restrict);
+               // Relación con Persona
+               entity.HasOne(asist => asist.Persona)
+                     .WithMany()
+                     .HasForeignKey(asist => asist.PersonaId)
+                     .OnDelete(DeleteBehavior.Restrict);
 
-            //    // Relación con Actividad
-            //    entity.HasOne(asist => asist.Actividad)
-            //          .WithMany()
-            //          .HasForeignKey(asist => asist.ActividadId)
-            //          .OnDelete(DeleteBehavior.Restrict);
-            //});
+               // Relación con Actividad
+               entity.HasOne(asist => asist.Actividad)
+                     .WithMany()
+                     .HasForeignKey(asist => asist.ActividadId)
+                     .OnDelete(DeleteBehavior.Restrict);
+            });
 
-            //// --- Configuración de Reserva ---
-            //modelBuilder.Entity<Reserva>(entity =>
-            //{
-            //    entity.HasKey(r => r.Id); 
-            //    entity.Property(r => r.Id).ValueGeneratedOnAdd();
+            // --- Configuración de Reserva ---
+            modelBuilder.Entity<Reserva>(entity =>
+            {
+               entity.HasKey(r => r.Id); 
+               entity.Property(r => r.Id).ValueGeneratedOnAdd();
 
-            //    entity.Property(r => r.Fecha).IsRequired();
-            //    entity.Property(r => r.HoraInicio).IsRequired();
-            //    entity.Property(r => r.HoraFin).IsRequired();
-            //    entity.Property(r => r.Estado).IsRequired();
+               entity.Property(r => r.Fecha).IsRequired();
+               entity.Property(r => r.HoraInicio).IsRequired();
+               entity.Property(r => r.HoraFin).IsRequired();
+               entity.Property(r => r.Estado).IsRequired();
 
-            //    // Relación con Cancha
-            //    entity.HasOne(r => r.Cancha)
-            //          .WithMany(c => c.Reservas)
-            //          .HasForeignKey(r => r.CanchaId)
-            //          .OnDelete(DeleteBehavior.Restrict);
+               // Relación con Cancha
+               entity.HasOne(r => r.Cancha)
+                     .WithMany(c => c.Reservas)
+                     .HasForeignKey(r => r.CanchaId)
+                     .OnDelete(DeleteBehavior.Restrict);
 
-            //    // Relación con Usuario
-            //    entity.HasOne(r => r.Usuario)
-            //          .WithMany(u => u.Reservas)
-            //          .HasForeignKey(r => r.UsuarioId)
-            //          .OnDelete(DeleteBehavior.Restrict);
-            //});
+               // Relación con Usuario
+               entity.HasOne(r => r.Usuario)
+                     .WithMany(u => u.Reservas)
+                     .HasForeignKey(r => r.UsuarioId)
+                     .OnDelete(DeleteBehavior.Restrict);
+            });
 
-            //// --- Configuración de Mantenimiento ---
-            //modelBuilder.Entity<Mantenimiento>(entity =>
-            //{
-            //    entity.HasKey(m => m.Id);
-            //    entity.Property(m => m.Id).ValueGeneratedOnAdd();
+            // --- Configuración de Mantenimiento ---
+            modelBuilder.Entity<Mantenimiento>(entity =>
+            {
+               entity.HasKey(m => m.Id);
+               entity.Property(m => m.Id).ValueGeneratedOnAdd();
 
-            //    entity.Property(m => m.Fecha).IsRequired();
-            //    entity.Property(m => m.HoraInicio).IsRequired();
-            //    entity.Property(m => m.HoraFin).IsRequired();
-            //    entity.Property(m => m.Motivo).HasMaxLength(250).IsRequired();
-            //    entity.Property(m => m.Estado).IsRequired();
+               entity.Property(m => m.Fecha).IsRequired();
+               entity.Property(m => m.HoraInicio).IsRequired();
+               entity.Property(m => m.HoraFin).IsRequired();
+               entity.Property(m => m.Motivo).HasMaxLength(250).IsRequired();
+               entity.Property(m => m.Estado).IsRequired();
 
-            //    // Relación con Cancha
-            //    entity.HasOne(m => m.Cancha)
-            //          .WithMany(c => c.Mantenimientos)
-            //          .HasForeignKey(m => m.CanchaId)
-            //          .OnDelete(DeleteBehavior.Restrict);
-            //});
+               // Relación con Cancha
+               entity.HasOne(m => m.Cancha)
+                     .WithMany(c => c.Mantenimientos)
+                     .HasForeignKey(m => m.CanchaId)
+                     .OnDelete(DeleteBehavior.Restrict);
+            });
 
-            //// --- Configuración de Cobro ---
-            //modelBuilder.Entity<Cobro>(entity =>
-            //{
-            //    entity.HasKey(c => c.Id);
-            //    entity.Property(c => c.Id).ValueGeneratedOnAdd();
+            // --- Configuración de Cobro ---
+            modelBuilder.Entity<Cobro>(entity =>
+            {
+               entity.HasKey(c => c.Id);
+               entity.Property(c => c.Id).ValueGeneratedOnAdd();
 
-            //    entity.Property(c => c.MedioPago).IsRequired();
-            //    entity.Property(c => c.MontoOriginal).IsRequired();
-            //    entity.Property(c => c.MontoFinal).IsRequired();
-            //    entity.Property(c => c.Estado).IsRequired();
-            //});
+               entity.Property(c => c.MedioPago).IsRequired();
+               entity.Property(c => c.MontoOriginal).IsRequired();
+               entity.Property(c => c.MontoFinal).IsRequired();
+               entity.Property(c => c.Estado).IsRequired();
+            });
 
-            //// --- Configuración de Recibo ---
-            //modelBuilder.Entity<Recibo>(entity =>
-            //{
-            //    entity.HasKey(f => f.Id);
-            //    entity.Property(f => f.Id).ValueGeneratedOnAdd();
+            // --- Configuración de Recibo ---
+            modelBuilder.Entity<Recibo>(entity =>
+            {
+               entity.HasKey(f => f.Id);
+               entity.Property(f => f.Id).ValueGeneratedOnAdd();
 
-            //    entity.Property(f => f.NumeroComprobante).IsRequired();
-            //    entity.Property(f => f.FechaEmision).IsRequired();
+               entity.Property(f => f.NumeroComprobante).IsRequired();
+               entity.Property(f => f.FechaEmision).IsRequired();
 
-            //    entity.HasOne(f => f.Cobro)
-            //          .WithOne(c => c.Recibo)
-            //          .HasForeignKey<Recibo>(f => f.CobroId)
-            //          .OnDelete(DeleteBehavior.Restrict);
-            //});
+               entity.HasOne(f => f.Cobro)
+                     .WithOne(c => c.Recibo)
+                     .HasForeignKey<Recibo>(f => f.CobroId)
+                     .OnDelete(DeleteBehavior.Restrict);
+            });
 
-            //// --- Configuración de Reembolso ---
-            //modelBuilder.Entity<Reembolso>(entity =>
-            //{
-            //    entity.HasKey(r => r.Id); 
-            //    entity.Property(r => r.Id).ValueGeneratedOnAdd();
+            // --- Configuración de Reembolso ---
+            modelBuilder.Entity<Reembolso>(entity =>
+            {
+               entity.HasKey(r => r.Id); 
+               entity.Property(r => r.Id).ValueGeneratedOnAdd();
 
-            //    entity.Property(r => r.Motivo).IsRequired();
-            //    entity.Property(r => r.Monto).IsRequired();
-            //    entity.Property(r => r.Fecha).IsRequired();
+               entity.Property(r => r.Motivo).IsRequired();
+               entity.Property(r => r.Monto).IsRequired();
+               entity.Property(r => r.Fecha).IsRequired();
 
-            //    // Relación explícita con Cobro
-            //    entity.HasOne<Cobro>()
-            //          .WithMany()
-            //          .HasForeignKey(r => r.CobroId)
-            //          .OnDelete(DeleteBehavior.Restrict);
-            //});
+               // Relación explícita con Cobro
+               entity.HasOne<Cobro>()
+                     .WithMany()
+                     .HasForeignKey(r => r.CobroId)
+                     .OnDelete(DeleteBehavior.Restrict);
+            });
 
-            //// --- Configuración de Descuento ---
-            //modelBuilder.Entity<Descuento>(entity =>
-            //{
-            //    entity.HasKey(d => d.Id);
-            //    entity.Property(d => d.Id).ValueGeneratedOnAdd();
+            // --- Configuración de Descuento ---
+            modelBuilder.Entity<Descuento>(entity =>
+            {
+               entity.HasKey(d => d.Id);
+               entity.Property(d => d.Id).ValueGeneratedOnAdd();
 
-            //    entity.Property(d => d.Nombre).IsRequired();
-            //    entity.Property(d => d.Porcentaje).IsRequired();
-            //    entity.Property(d => d.EstadoActivo).IsRequired();
-            //});
+               entity.Property(d => d.Nombre).IsRequired();
+               entity.Property(d => d.Porcentaje).IsRequired();
+               entity.Property(d => d.EstadoActivo).IsRequired();
+            });
 
-            //// --- Configuración de Partido ---
-            //modelBuilder.Entity<Partido>(entity =>
-            //{
-            //    entity.HasKey(p => p.Id); 
-            //    entity.Property(p => p.Id).ValueGeneratedOnAdd();
+            // --- Configuración de Partido ---
+            modelBuilder.Entity<Partido>(entity =>
+            {
+               entity.HasKey(p => p.Id); 
+               entity.Property(p => p.Id).ValueGeneratedOnAdd();
 
-            //    entity.Property(p => p.Fecha).IsRequired();
-            //    entity.Property(p => p.EquipoLocal).IsRequired();
-            //    entity.Property(p => p.EquipoVisitante).IsRequired();
-            //    entity.Property(p => p.GolesLocal).IsRequired();
-            //    entity.Property(p => p.GolesVisitante).IsRequired();
-            //    entity.Property(p => p.Resultado).IsRequired();
-            //});
+               entity.Property(p => p.Fecha).IsRequired();
+               entity.Property(p => p.EquipoLocal).IsRequired();
+               entity.Property(p => p.EquipoVisitante).IsRequired();
+               entity.Property(p => p.GolesLocal).IsRequired();
+               entity.Property(p => p.GolesVisitante).IsRequired();
+               entity.Property(p => p.Resultado).IsRequired();
+            });
 
 
             // --- Carga de datos iniciales (Seed Data) --- //

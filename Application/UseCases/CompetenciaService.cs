@@ -9,23 +9,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
-using Application.Interfaces;
-using Application.Models.Request;
-using Application.Models.Response;
 using Domain.Enums;
 
 namespace Application.UseCases
 {
     // Servicio encargado de ser el "cerebro" de las Competencias.
-    public class ServiceCompetencia : ICompetenciaService
+
+    public class CompetenciaService : ICompetenciaService
     {
         // Herramientas para leer (_query) y escribir (_command) en la base de datos
         private readonly IQueryCompetencia _query;
         private readonly ICommandCompetencia _command;
 
         // Constructor: C# nos inyecta las herramientas automáticamente al arrancar
-        public ServiceCompetencia(IQueryCompetencia query, ICommandCompetencia command)
+        public CompetenciaService(IQueryCompetencia query, ICommandCompetencia command)
         {
             _query = query;
             _command = command;

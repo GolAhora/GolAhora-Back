@@ -11,11 +11,10 @@ namespace Application.Interfaces.Services
     public interface ICobroService
     {
         Task<CobroResponse> RegistrarCobro(CobroRequest request); 
-        Task<CobroResponse> ModificarCobro(Guid id);
+        Task<CobroResponse> ModificarCobro(Guid id, CobroRequest request);
         Task<CobroResponse> ConsultarCobro(Guid id);
         Task<CobroResponse> EliminarCobro(Guid id);
-        Task<CobroResponse> ImprimirCobro(Guid id);
         Task<CobroResponse> ValidarCobro(Guid id);
-        Task<CobroResponse> GenerarReciboDeCobro(Guid id);
+        Task<ReciboResponse> GenerarReciboDeCobro(Guid id);
     }
 }

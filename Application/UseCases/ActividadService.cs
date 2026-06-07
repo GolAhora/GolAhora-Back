@@ -1,45 +1,34 @@
-﻿using Application.Interfaces;
-using Application.Interfaces.Commands;
+﻿using Application.Interfaces.Commands;
 using Application.Interfaces.Queries;
 using Application.Interfaces.Services;
 using Application.Models.Request;
 using Application.Models.Response;
 using Domain.Entities;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
 namespace Application.UseCases
 {
-    // Servicio encargado de ser el "cerebro" de las Actividades
+
     public class ActividadService : IActividadService
     {
-        // Herramientas para leer (_query) y escribir (_command) en la base de datos
         private readonly IQueryActividad _query;
         private readonly ICommandActividad _command;
 
-        // Constructor: C# nos inyecta las herramientas al arrancar
+
         public ActividadService(IQueryActividad query, ICommandActividad command)
         {
             _query = query;
             _command = command;
+  
         }
 
         // --- 1. MÉTODOS BÁSICOS (CRUD) ---
 
         public async Task<ActividadResponse> ConsultarActividad(Guid id)
         {
-            // Usamos 'var' para no repetir código. Traemos la actividad.
             var actividad = await _query.ObtenerPorIdAsync(id);
-
-            // Si no existe, frenamos todo
             if (actividad == null)
             {
                 throw new Exception("La actividad solicitada no existe.");
             }
-
-            // Traducimos a Response y enviamos
             return Mapear(actividad);
         }
 
@@ -58,6 +47,8 @@ namespace Application.UseCases
             {
                 throw new Exception("El cupo máximo debe ser mayor a cero.");
             }
+            if (request.HoraInicio >= request.HoraFin)
+                        throw new Exception("La hora de inicio debe ser anterior a la hora de fin.");
 
             // Armamos la actividad completa en un solo bloque (Object Initializer)
             var nuevaActividad = new Actividad
@@ -78,10 +69,11 @@ namespace Application.UseCases
 
         public async Task<ActividadResponse> ModificarActividad(Guid id, ActividadRequest request)
         {
-            var actividadExistente = await _query.ObtenerPorIdAsync(id);
+                var actividadExistente = await _query.ObtenerPorIdAsync(id)
+                ?? throw new Exception("La actividad que intenta modificar no existe.");
 
-            if (actividadExistente == null) throw new Exception("La actividad que intenta modificar no existe.");
-
+            if (request.HoraInicio >= request.HoraFin)
+                throw new Exception("La hora de inicio debe ser anterior a la hora de fin.");
             // Pisamos los datos viejos con los nuevos
             actividadExistente.Nombre = request.Nombre;
             actividadExistente.Fecha = request.Fecha;
@@ -108,48 +100,6 @@ namespace Application.UseCases
             return Mapear(actividad);
         }
 
-        // Programar y Registrar hacen lo mismo, reciclamos código
-        public async Task<ActividadResponse> Registrar(ActividadRequest request)
-        {
-            return await ProgramarActividad(request);
-        }
-
-
-        // --- 2. MÉTODOS DE REGLAS DE NEGOCIO ---
-
-        public async Task<ActividadResponse> ConsultarActividadPorCompetencia(Guid idCompetencia)
-        {
-            var actividades = await _query.ObtenerPorCompetenciaAsync(idCompetencia);
-
-            // FirstOrDefault trae el primero de la lista, o 'null' si la lista está vacía
-            var primeraActividad = actividades.FirstOrDefault();
-
-            if (primeraActividad == null)
-            {
-                throw new Exception("No hay actividades para esta competencia.");
-            }
-
-            return Mapear(primeraActividad);
-        }
-
-        // Nota: Agregué el parámetro 'idActividad' porque si no el sistema no sabe de dónde borrar al usuario
-        public async Task<ActividadResponse> CancelarInscripcionPorUsuario(Guid idActividad, Guid idUsuario)
-        {
-            var actividad = await _query.ObtenerPorIdAsync(idActividad);
-            if (actividad == null) throw new Exception("Actividad no encontrada.");
-
-            // Buscamos si el usuario está inscripto en esta actividad
-            var inscripcion = actividad.Inscripciones.FirstOrDefault(i => i.UsuarioId == idUsuario);
-
-            if (inscripcion != null)
-            {
-                // Lo borramos de la lista y guardamos
-                actividad.Inscripciones.Remove(inscripcion);
-                await _command.ModificarAsync(actividad);
-            }
-
-            return Mapear(actividad);
-        }
 
         public async Task<ActividadResponse> ValidarCupoPorActividad(Guid idActividad)
         {
@@ -166,7 +116,6 @@ namespace Application.UseCases
             // Si hay lugar, devolvemos la actividad sin errores
             return Mapear(actividad);
         }
-
 
         // --- 3. EL TRADUCTOR PRIVADO (MAPPER) ---
 
@@ -185,14 +134,5 @@ namespace Application.UseCases
             };
         }
 
-        public Task<ActividadResponse> ModificarActividad(ActividadRequest request)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<ActividadResponse> CancelarInscripcionPorUsuario(Guid idUsuario)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

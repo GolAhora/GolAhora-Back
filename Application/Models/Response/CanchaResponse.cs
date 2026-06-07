@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Domain.Enums;
 
 namespace Application.Models.Response
 {
@@ -10,8 +11,8 @@ namespace Application.Models.Response
     {
         public Guid Id { get; set; }
         public int Numero { get; set; }
-        public string? Estado { get; set; } // "Disponible", "Ocupada", "Mantenimiento"
-        public string? TipoCanchaNombre { get; set; }
+        public EstadoCancha Estado { get; set; } 
+        public TipoCanchaResponse TipoCancha { get; set; }
 
 
     }

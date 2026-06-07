@@ -32,10 +32,10 @@ namespace Infrastructure.Commands
         }
 
 
-        public async Task<Cancha?> ModificarCancha(Guid id, Cancha cancha)
+        public async Task<Cancha> ModificarCancha(Guid id, Cancha cancha)
         {
-            Cancha? modificar = await _context.Cancha.SingleOrDefaultAsync(c => c.Id == id);
-            if (modificar == null) return null;
+            Cancha modificar = await _context.Cancha.Include(c => c.TipoCancha)
+                                                        .FirstOrDefaultAsync(c => c.Id == id);
 
             modificar.Numero = cancha.Numero;
             modificar.Estado = cancha.Estado;

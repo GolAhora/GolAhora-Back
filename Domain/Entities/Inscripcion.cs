@@ -8,7 +8,6 @@ namespace Domain.Entities
     {
         // FIX 1: Lo pasamos a Guid para mantener el estándar de tu sistema
         public Guid Id { get; set; }
-
         public Guid UsuarioId { get; set; }
         public Guid ReferenciaId { get; set; }
         public TipoInscripcion TipoInscripcion { get; set; }

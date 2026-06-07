@@ -22,7 +22,7 @@ namespace Infrastructure.Migrations
                     ReferenciaId = table.Column<Guid>(type: "uuid", nullable: false),
                     TipoReferencia = table.Column<int>(type: "integer", nullable: false),
                     Fecha = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    MedioPago = table.Column<string>(type: "text", nullable: true),
+                    MedioPago = table.Column<string>(type: "text", nullable: false),
                     MontoOriginal = table.Column<decimal>(type: "numeric", nullable: false),
                     MontoFinal = table.Column<decimal>(type: "numeric", nullable: false),
                     Estado = table.Column<int>(type: "integer", nullable: false)
@@ -30,6 +30,23 @@ namespace Infrastructure.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Cobro", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Competencia",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Nombre = table.Column<string>(type: "text", nullable: true),
+                    FechaInicio = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    FechaFin = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    ReglamentoOficial = table.Column<string>(type: "text", nullable: true),
+                    ReglamentoInterno = table.Column<string>(type: "text", nullable: true),
+                    Estado = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Competencia", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,34 +86,18 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Nombre = table.Column<string>(type: "text", nullable: false),
+                    Nombre = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Edad = table.Column<int>(type: "integer", nullable: false),
-                    Direccion = table.Column<string>(type: "text", nullable: false),
-                    Email = table.Column<string>(type: "text", nullable: false),
-                    Telefono = table.Column<string>(type: "text", nullable: false),
-                    Discriminator = table.Column<string>(type: "character varying(8)", maxLength: 8, nullable: false),
-                    Password = table.Column<string>(type: "text", nullable: true),
+                    Direccion = table.Column<string>(type: "character varying(200)", maxLength: 200, nullable: false),
+                    Email = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
+                    Telefono = table.Column<string>(type: "character varying(20)", maxLength: 20, nullable: false),
+                    TipoPersona = table.Column<string>(type: "character varying(13)", maxLength: 13, nullable: false),
+                    ClerkId = table.Column<string>(type: "text", nullable: true),
                     FechaRegistro = table.Column<DateTime>(type: "timestamp with time zone", nullable: true)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Persona", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "Reembolso",
-                columns: table => new
-                {
-                    Id = table.Column<int>(type: "integer", nullable: false)
-                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
-                    Monto = table.Column<float>(type: "real", nullable: false),
-                    Fecha = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    Motivo = table.Column<string>(type: "text", nullable: false),
-                    CobroId = table.Column<Guid>(type: "uuid", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_Reembolso", x => x.Id);
                 });
 
             migrationBuilder.CreateTable(
@@ -133,7 +134,29 @@ namespace Infrastructure.Migrations
                         column: x => x.CobroId,
                         principalTable: "Cobro",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "Reembolso",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    Monto = table.Column<float>(type: "real", nullable: false),
+                    Fecha = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    Motivo = table.Column<string>(type: "text", nullable: false),
+                    CobroId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_Reembolso", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_Reembolso_Cobro_CobroId",
+                        column: x => x.CobroId,
+                        principalTable: "Cobro",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -161,7 +184,7 @@ namespace Infrastructure.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    Nombre = table.Column<string>(type: "text", nullable: true),
+                    Nombre = table.Column<string>(type: "character varying(100)", maxLength: 100, nullable: false),
                     Fecha = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     HoraInicio = table.Column<TimeSpan>(type: "interval", nullable: false),
                     HoraFin = table.Column<TimeSpan>(type: "interval", nullable: false),
@@ -176,7 +199,7 @@ namespace Infrastructure.Migrations
                         column: x => x.CanchaId,
                         principalTable: "Cancha",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -188,8 +211,8 @@ namespace Infrastructure.Migrations
                     Fecha = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
                     HoraInicio = table.Column<TimeSpan>(type: "interval", nullable: false),
                     HoraFin = table.Column<TimeSpan>(type: "interval", nullable: false),
-                    Motivo = table.Column<string>(type: "text", nullable: true),
-                    Estado = table.Column<string>(type: "text", nullable: true)
+                    Motivo = table.Column<string>(type: "character varying(250)", maxLength: 250, nullable: false),
+                    Estado = table.Column<string>(type: "text", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -199,7 +222,7 @@ namespace Infrastructure.Migrations
                         column: x => x.CanchaId,
                         principalTable: "Cancha",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -222,13 +245,13 @@ namespace Infrastructure.Migrations
                         column: x => x.CanchaId,
                         principalTable: "Cancha",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Reserva_Persona_UsuarioId",
                         column: x => x.UsuarioId,
                         principalTable: "Persona",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.CreateTable(
@@ -240,7 +263,8 @@ namespace Infrastructure.Migrations
                     ReferenciaId = table.Column<Guid>(type: "uuid", nullable: false),
                     TipoInscripcion = table.Column<int>(type: "integer", nullable: false),
                     Fecha = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
-                    ActividadId = table.Column<Guid>(type: "uuid", nullable: true)
+                    ActividadId = table.Column<Guid>(type: "uuid", nullable: true),
+                    CompetenciaId = table.Column<Guid>(type: "uuid", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -249,6 +273,11 @@ namespace Infrastructure.Migrations
                         name: "FK_Inscripcion_Actividad_ActividadId",
                         column: x => x.ActividadId,
                         principalTable: "Actividad",
+                        principalColumn: "Id");
+                    table.ForeignKey(
+                        name: "FK_Inscripcion_Competencia_CompetenciaId",
+                        column: x => x.CompetenciaId,
+                        principalTable: "Competencia",
                         principalColumn: "Id");
                     table.ForeignKey(
                         name: "FK_Inscripcion_Persona_UsuarioId",
@@ -276,7 +305,7 @@ namespace Infrastructure.Migrations
                         column: x => x.ActividadId,
                         principalTable: "Actividad",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                     table.ForeignKey(
                         name: "FK_Asistencia_Inscripcion_InscripcionId",
                         column: x => x.InscripcionId,
@@ -287,7 +316,7 @@ namespace Infrastructure.Migrations
                         column: x => x.PersonaId,
                         principalTable: "Persona",
                         principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
+                        onDelete: ReferentialAction.Restrict);
                 });
 
             migrationBuilder.InsertData(
@@ -295,8 +324,8 @@ namespace Infrastructure.Migrations
                 columns: new[] { "Id", "Capacidad", "DuracionMax", "Nombre", "PrecioBaseHora", "Superficie" },
                 values: new object[,]
                 {
-                    { new Guid("47f915e4-4de7-4514-a7c6-a8e1cdfe7aa7"), 10, 2.0, "Futbol 5", 5000.0, 100 },
-                    { new Guid("bb05ba9b-7675-4736-b1d5-0cf924507a61"), 22, 2.0, "Futbol 11", 5000.0, 100 }
+                    { new Guid("02b1c362-9287-4962-b62b-b26204792f97"), 10, 2.0, "Futbol 5", 5000.0, 100 },
+                    { new Guid("120a32e0-cca8-49a8-bbaa-26be18b3b081"), 22, 2.0, "Futbol 11", 5000.0, 100 }
                 });
 
             migrationBuilder.InsertData(
@@ -304,9 +333,9 @@ namespace Infrastructure.Migrations
                 columns: new[] { "Id", "Estado", "Numero", "TipoCanchaId" },
                 values: new object[,]
                 {
-                    { new Guid("1f09a8b8-488b-44f0-8d7d-7c77c707c843"), 3, 3, new Guid("bb05ba9b-7675-4736-b1d5-0cf924507a61") },
-                    { new Guid("2ca0ae80-a025-4dde-b5a9-176ffb8731b7"), 1, 2, new Guid("47f915e4-4de7-4514-a7c6-a8e1cdfe7aa7") },
-                    { new Guid("db597ead-4733-4e5c-8775-69328d654974"), 1, 1, new Guid("47f915e4-4de7-4514-a7c6-a8e1cdfe7aa7") }
+                    { new Guid("21bbc35e-531b-47cf-a3fb-0ec1c492a3b8"), 1, 2, new Guid("02b1c362-9287-4962-b62b-b26204792f97") },
+                    { new Guid("7d07e8a4-702c-4ec1-b964-825e19e6f882"), 3, 3, new Guid("120a32e0-cca8-49a8-bbaa-26be18b3b081") },
+                    { new Guid("b454091c-9f0d-44a9-9a0b-97fc1efd3ddb"), 1, 1, new Guid("02b1c362-9287-4962-b62b-b26204792f97") }
                 });
 
             migrationBuilder.CreateIndex(
@@ -340,6 +369,11 @@ namespace Infrastructure.Migrations
                 column: "ActividadId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Inscripcion_CompetenciaId",
+                table: "Inscripcion",
+                column: "CompetenciaId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Inscripcion_UsuarioId",
                 table: "Inscripcion",
                 column: "UsuarioId");
@@ -354,6 +388,11 @@ namespace Infrastructure.Migrations
                 table: "Recibo",
                 column: "CobroId",
                 unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Reembolso_CobroId",
+                table: "Reembolso",
+                column: "CobroId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Reserva_CanchaId",
@@ -398,6 +437,9 @@ namespace Infrastructure.Migrations
 
             migrationBuilder.DropTable(
                 name: "Actividad");
+
+            migrationBuilder.DropTable(
+                name: "Competencia");
 
             migrationBuilder.DropTable(
                 name: "Persona");
