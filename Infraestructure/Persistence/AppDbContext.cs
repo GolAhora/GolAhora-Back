@@ -156,21 +156,23 @@ namespace Infrastructure.Persistence
             // --- Configuración de Persona (y Herencia TPH) ---
             modelBuilder.Entity<Persona>(entity =>
             {
-               entity.HasKey(p => p.Id);
-               entity.Property(p => p.Id).ValueGeneratedOnAdd();
+                entity.HasKey(p => p.Id);
+                entity.Property(p => p.Id).ValueGeneratedOnAdd();
 
-               entity.Property(p => p.Nombre).HasMaxLength(100).IsRequired();
-               entity.Property(p => p.Edad).IsRequired();
-               entity.Property(p => p.Direccion).HasMaxLength(200).IsRequired();
-               entity.Property(p => p.Email).HasMaxLength(100).IsRequired();
-               entity.Property(p => p.Telefono).HasMaxLength(20).IsRequired();
+                // Obligatorios
+                entity.Property(p => p.Nombre).HasMaxLength(100).IsRequired();
+                entity.Property(p => p.Email).HasMaxLength(100).IsRequired();
 
-               // Fundamental para que Persona y Usuario compartan tabla sin romper la BD.
-               entity.HasDiscriminator<string>("TipoPersona")
-                     .HasValue<Persona>("PersonaBase")
-                     .HasValue<Usuario>("Usuario")
-                     .HasValue<Profesor>("Profesor")
-                     .HasValue<Entrenador>("Entrenador");
+                // Opcionales (Le sacamos el .IsRequired())
+                entity.Property(p => p.Edad);
+                entity.Property(p => p.Direccion).HasMaxLength(200);
+                entity.Property(p => p.Telefono).HasMaxLength(20);
+
+                entity.HasDiscriminator<string>("TipoPersona")
+                      .HasValue<Persona>("PersonaBase")
+                      .HasValue<Usuario>("Usuario")
+                      .HasValue<Profesor>("Profesor")
+                      .HasValue<Entrenador>("Entrenador");
             });
 
             // --- Configuración de Asistencia ---
