@@ -9,10 +9,14 @@ namespace Domain.Entities
     public class Persona
     {
         public Guid Id { get; set; }
-        public String Nombre { get; set; }
-        public int Edad { get; set; }
-        public String Direccion { get; set; }
-        public String Email { get; set; }
-        public String Telefono { get; set; }
+
+        // --- OBLIGATORIOS ---
+        public string Nombre { get; set; } = string.Empty;
+        public string Email { get; set; } = string.Empty;
+
+        // --- OPCIONALES (Nuleables) ---
+        public int? Edad { get; set; }
+        public string? Direccion { get; set; }
+        public string? Telefono { get; set; }
     }
 }
