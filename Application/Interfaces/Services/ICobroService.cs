@@ -12,7 +12,7 @@ namespace Application.Interfaces.Services
     {
         Task<CobroResponse> RegistrarCobro(CobroRequest request);
         Task<CobroResponse> ModificarCobro(Guid id, CobroRequest request);
-        Task<IList<CobroResponse>> ConsultarCobros(DateTime fecha);
+        Task<IList<CobroResponse>> ConsultarCobros(DateTime? fecha);
         Task<CobroResponse> ConsultarCobro(Guid id);
         Task<CobroResponse> EliminarCobro(Guid id);
         Task<ReciboResponse> GenerarReciboDeCobro(Guid id); 

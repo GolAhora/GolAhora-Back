@@ -10,15 +10,21 @@ namespace Application.UseCases
 {
     public class CobroService : ICobroService
     {
-        private readonly IQueryCobro   _query;
-        private readonly ICommandCobro  _command;
+        private readonly IQueryCobro _query;
+        private readonly ICommandCobro _command;
         private readonly ICommandRecibo _commandRecibo;
+        private readonly IQueryActividad _queryActividad;
 
-        public CobroService(IQueryCobro query, ICommandCobro command, ICommandRecibo commandRecibo)
+        public CobroService(
+            IQueryCobro query,
+            ICommandCobro command,
+            ICommandRecibo commandRecibo,
+            IQueryActividad queryActividad)
         {
-            _query         = query;
-            _command       = command;
+            _query = query;
+            _command = command;
             _commandRecibo = commandRecibo;
+            _queryActividad = queryActividad;
         }
 
         public async Task<CobroResponse> ConsultarCobro(Guid id)
@@ -28,20 +34,24 @@ namespace Application.UseCases
             return Mapear(cobro);
         }
 
-        public async Task<IList<CobroResponse>> ConsultarCobros()
+        // AGREGAR ESTO
+        public async Task<IList<CobroResponse>> ConsultarCobros(DateTime? fecha)
         {
-            var cobros = await _query.ObtenerTodosAsync();
-            return cobros.Select(Mapear).ToList();
+            // Si la fecha tiene valor, buscamos por esa fecha
+            if (fecha.HasValue)
+            {
+                var cobros = await _query.ObtenerPorFechaAsync(fecha.Value);
+                return cobros.Select(Mapear).ToList();
+            }
+            // Si la fecha es nula, traemos todos los cobros
+            else
+            {
+                var cobros = await _query.ObtenerTodosAsync();
+                return cobros.Select(Mapear).ToList();
+            }
         }
 
         public async Task<IList<CobroResponse>> ConsultarCobroPorFecha(DateTime fecha)
-        {
-            var cobros = await _query.ObtenerPorFechaAsync(fecha);
-            return cobros.Select(Mapear).ToList();
-        }
-
-
-        public async Task<IList<CobroResponse>> ConsultarCobros(DateTime fecha)
         {
             var cobros = await _query.ObtenerPorFechaAsync(fecha);
             return cobros.Select(Mapear).ToList();
@@ -64,14 +74,19 @@ namespace Application.UseCases
             if (request.MontoFinal <= 0)
                 throw new Exception("El monto del cobro debe ser mayor a cero.");
 
+            // Validar que la actividad referenciada exista antes de registrar el cobro
+            var actividad = await _queryActividad.ObtenerPorIdAsync(request.ReferenciaId);
+            if (actividad == null)
+                throw new Exception("No se puede registrar el cobro: la actividad indicada no existe.");
+
             var nuevo = new Cobro
             {
-                ReferenciaId   = request.ReferenciaId,
-                MedioPago      = request.MedioPago,
-                MontoFinal     = request.MontoFinal,
-                MontoOriginal  = request.MontoFinal,
-                Fecha          = DateTime.UtcNow,
-                Estado         = Estado.Pendiente
+                ReferenciaId = request.ReferenciaId,
+                MedioPago = request.MedioPago,
+                MontoFinal = request.MontoFinal,
+                MontoOriginal = request.MontoFinal,
+                Fecha = DateTime.UtcNow,
+                Estado = Estado.Pendiente
             };
 
             await _command.AgregarAsync(nuevo);
@@ -83,9 +98,14 @@ namespace Application.UseCases
             var cobro = await _query.ObtenerPorIdAsync(id)
                 ?? throw new Exception("El cobro que intenta modificar no existe.");
 
+            // Validar que la nueva actividad referenciada exista
+            var actividad = await _queryActividad.ObtenerPorIdAsync(request.ReferenciaId);
+            if (actividad == null)
+                throw new Exception("No se puede modificar el cobro: la actividad indicada no existe.");
+
             cobro.ReferenciaId = request.ReferenciaId;
-            cobro.MedioPago    = request.MedioPago;
-            cobro.MontoFinal   = request.MontoFinal;
+            cobro.MedioPago = request.MedioPago;
+            cobro.MontoFinal = request.MontoFinal;
 
             await _command.ModificarAsync(cobro);
             return Mapear(cobro);
@@ -97,16 +117,6 @@ namespace Application.UseCases
                 ?? throw new Exception("El cobro no existe.");
 
             await _command.EliminarAsync(id);
-            return Mapear(cobro);
-        }
-
-        public async Task<CobroResponse> ValidarCobro(Guid id)
-        {
-            var cobro = await _query.ObtenerPorIdAsync(id)
-                ?? throw new Exception("Cobro no encontrado.");
-
-            cobro.Estado = Estado.Confirmada;
-            await _command.ModificarAsync(cobro);
             return Mapear(cobro);
         }
 
@@ -123,33 +133,33 @@ namespace Application.UseCases
 
             var recibo = new Recibo
             {
-                CobroId           = cobro.Id,
-                FechaEmision      = DateTime.UtcNow,
+                CobroId = cobro.Id,
+                FechaEmision = DateTime.UtcNow,
                 NumeroComprobante = new Random().Next(100000, 999999),
-                MontoTotal        = cobro.MontoFinal
+                MontoTotal = cobro.MontoFinal
             };
 
             await _commandRecibo.AgregarAsync(recibo);
 
             return new ReciboResponse
             {
-                Id                = recibo.Id,
-                CobroId           = recibo.CobroId,
-                FechaEmision      = recibo.FechaEmision,
+                Id = recibo.Id,
+                CobroId = recibo.CobroId,
+                FechaEmision = recibo.FechaEmision,
                 NumeroComprobante = recibo.NumeroComprobante,
-                MontoTotal        = recibo.MontoTotal
+                MontoTotal = recibo.MontoTotal
             };
         }
 
         private static CobroResponse Mapear(Cobro c) => new CobroResponse
         {
-            Id            = c.Id,
+            Id = c.Id,
             MontoOriginal = c.MontoOriginal,
-            MontoFinal    = c.MontoFinal,
-            Fecha         = c.Fecha,
-            Estado        = c.Estado.ToString(),
-            MedioPago     = c.MedioPago,
-            ReferenciaId  = c.ReferenciaId
+            MontoFinal = c.MontoFinal,
+            Fecha = c.Fecha,
+            Estado = c.Estado.ToString(),
+            MedioPago = c.MedioPago,
+            ReferenciaId = c.ReferenciaId
         };
 
     }

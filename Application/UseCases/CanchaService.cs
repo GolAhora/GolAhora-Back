@@ -26,7 +26,7 @@ namespace Application.UseCases
             _query = query;
             _command = command;
         }
-        
+
         public async Task<CanchaResponse> ConsultarCanchaPorId(Guid id)
         {
             var cancha = await _query.ConsultarCanchaPorId(id);
@@ -35,18 +35,18 @@ namespace Application.UseCases
 
             CanchaResponse canchaResponse = new CanchaResponse
             {
-                   Id = cancha.Id,
-                        Numero = cancha.Numero,
-                        TipoCancha = new TipoCanchaResponse
-                        {
-                            Id = cancha.TipoCanchaId,
-                            Nombre = cancha.TipoCancha.Nombre
-                        },
-                        Estado = cancha.Estado
+                Id = cancha.Id,
+                Numero = cancha.Numero,
+                TipoCancha = new TipoCanchaResponse
+                {
+                    Id = cancha.TipoCanchaId,
+                    Nombre = cancha.TipoCancha.Nombre
+                },
+                Estado = cancha.Estado
             };
 
             return canchaResponse;
-        }  
+        }
 
         public async Task<IList<CanchaResponse>> ConsultarCanchas()
         {
@@ -57,16 +57,16 @@ namespace Application.UseCases
             {
                 CanchaResponse canchaResponse = new CanchaResponse
                 {
-                        Id = cancha.Id,
-                        Numero = cancha.Numero,
-                        TipoCancha = new TipoCanchaResponse
-                        {
-                            Id = cancha.TipoCanchaId,
-                            Nombre = cancha.TipoCancha.Nombre
-                        },
-                        Estado = cancha.Estado
+                    Id = cancha.Id,
+                    Numero = cancha.Numero,
+                    TipoCancha = new TipoCanchaResponse
+                    {
+                        Id = cancha.TipoCanchaId,
+                        Nombre = cancha.TipoCancha.Nombre
+                    },
+                    Estado = cancha.Estado
                 };
-          
+
                 response.Add(canchaResponse);
             }
             return response;
@@ -81,7 +81,7 @@ namespace Application.UseCases
                 TipoCanchaId = request.TipoCanchaId,
                 Estado = EstadoCancha.Disponible
             };
-            Cancha create  = await _command.CrearCancha(nuevaCancha);
+            Cancha create = await _command.CrearCancha(nuevaCancha);
 
             CanchaResponse canchaResponse = new CanchaResponse
             {
@@ -107,23 +107,30 @@ namespace Application.UseCases
             var canchaExistente = await _query.ConsultarCanchaPorId(id);
 
             if (canchaExistente == null) throw new Exception("La cancha que intenta modificar no existe.");
-        
+
             var canchaModificada = new Cancha
             {
                 Id = canchaExistente.Id,
                 Numero = request.Numero ?? canchaExistente.Numero,
-                Estado = request.Estado ?? canchaExistente.Estado
+                Estado = request.Estado ?? canchaExistente.Estado,
+                TipoCanchaId = request.TipoCanchaId != Guid.Empty
+                    ? request.TipoCanchaId
+                    : canchaExistente.TipoCanchaId
             };
 
             var nc = await _command.ModificarCancha(id, canchaModificada);
 
-             return new CanchaResponse
-             {
+            return new CanchaResponse
+            {
                 Id = nc.Id,
-                Numero = nc.Numero, 
+                Numero = nc.Numero,
                 Estado = nc.Estado,
+                TipoCancha = new TipoCanchaResponse
+                {
+                    Id = nc.TipoCanchaId,
+                    Nombre = nc.TipoCancha?.Nombre
+                }
             };
-
         }
 
         public async Task<CanchaResponse> EliminarCancha(Guid id)
@@ -152,14 +159,14 @@ namespace Application.UseCases
 
 
 
-      
+
         public async Task<bool> ActualizarDisponibildiad(Guid id, bool disponible)
         {
             var cancha = await _query.ConsultarCanchaPorId(id);
 
             if (cancha == null) return false;
 
-        
+
             cancha.Estado = disponible ? EstadoCancha.Disponible : EstadoCancha.Ocupada;
 
             await _command.ModificarCancha(id, cancha);
@@ -170,7 +177,7 @@ namespace Application.UseCases
         public async Task<bool> ConsultarDisponibildiad(Guid id, bool disponible)
         {
             bool d = await _query.ConsultarDisponibildiad(id);
-            return d; 
+            return d;
         }
 
 

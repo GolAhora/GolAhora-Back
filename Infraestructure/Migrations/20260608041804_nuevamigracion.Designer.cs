@@ -12,8 +12,8 @@ using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 namespace Infrastructure.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20260607234847_NombreDeTuMigracion")]
-    partial class NombreDeTuMigracion
+    [Migration("20260608041804_nuevamigracion")]
+    partial class nuevamigracion
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -122,24 +122,24 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("af456ce5-6ca1-4808-bae8-1be2e6df8b6b"),
+                            Id = new Guid("42475654-4012-4d64-bef9-11c398def9db"),
                             Estado = 1,
                             Numero = 1,
-                            TipoCanchaId = new Guid("d3c1c19e-61f8-433c-a565-65d8965c1375")
+                            TipoCanchaId = new Guid("f6704f0d-bb2f-4344-964c-5573eee6d719")
                         },
                         new
                         {
-                            Id = new Guid("dc31ae8e-7584-4bab-8b09-837ef9d072b3"),
+                            Id = new Guid("d8cddc93-af5e-4178-9c87-8daef9425243"),
                             Estado = 1,
                             Numero = 2,
-                            TipoCanchaId = new Guid("d3c1c19e-61f8-433c-a565-65d8965c1375")
+                            TipoCanchaId = new Guid("f6704f0d-bb2f-4344-964c-5573eee6d719")
                         },
                         new
                         {
-                            Id = new Guid("2b06a773-fd76-4347-ba9e-2664f884addb"),
+                            Id = new Guid("86d99abd-7f6e-46b6-b6cb-ec4ec54c8026"),
                             Estado = 3,
                             Numero = 3,
-                            TipoCanchaId = new Guid("66601942-6d1e-4d44-ade9-6cf5215e3af3")
+                            TipoCanchaId = new Guid("7b0460e2-ca77-4371-962c-9c81303a9365")
                         });
                 });
 
@@ -487,7 +487,7 @@ namespace Infrastructure.Migrations
                     b.HasData(
                         new
                         {
-                            Id = new Guid("d3c1c19e-61f8-433c-a565-65d8965c1375"),
+                            Id = new Guid("f6704f0d-bb2f-4344-964c-5573eee6d719"),
                             Capacidad = 10,
                             DuracionMax = 2.0,
                             Nombre = "Futbol 5",
@@ -496,7 +496,7 @@ namespace Infrastructure.Migrations
                         },
                         new
                         {
-                            Id = new Guid("66601942-6d1e-4d44-ade9-6cf5215e3af3"),
+                            Id = new Guid("7b0460e2-ca77-4371-962c-9c81303a9365"),
                             Capacidad = 22,
                             DuracionMax = 2.0,
                             Nombre = "Futbol 11",
@@ -684,7 +684,7 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Profesor", "Profesor")
                         .WithMany()
                         .HasForeignKey("ProfesorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Profesor");
@@ -695,7 +695,7 @@ namespace Infrastructure.Migrations
                     b.HasOne("Domain.Entities.Entrenador", "Entrenador")
                         .WithMany()
                         .HasForeignKey("EntrenadorId")
-                        .OnDelete(DeleteBehavior.Cascade)
+                        .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
                     b.Navigation("Entrenador");

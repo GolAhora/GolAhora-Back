@@ -24,5 +24,4 @@ namespace Domain.Entities
     }
 
 
-
 }

@@ -15,11 +15,11 @@ namespace GolAhoraWebApi.Controllers
             => _cobroService = cobroService;
 
         [HttpGet]
-        public async Task<IActionResult> ConsultarCobros(Guid id)
+        public async Task<IActionResult> ConsultarCobros(DateTime? fecha)
         {
             try
             {
-                var lista = await _cobroService.ConsultarCobro(id);
+                var lista = await _cobroService.ConsultarCobros(fecha);
                 return new JsonResult(lista) { StatusCode = 200 };
             }
             catch (Exception ex)

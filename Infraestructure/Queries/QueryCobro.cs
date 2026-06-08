@@ -19,9 +19,9 @@ namespace Infrastructure.Queries
         public async Task<IList<Cobro>> ObtenerTodosAsync()
             => await _context.Cobro.Include(c => c.Recibo).ToListAsync();
 
-        public async Task<IList<Cobro>> ObtenerPorFechaAsync(DateTime fecha)
+        public async Task<IList<Cobro>> ObtenerPorFechaAsync(DateTime? fecha)
             => await _context.Cobro
-                .Where(c => c.Fecha.Date == fecha.Date)
+                .Where(c => c.Fecha == fecha)
                 .ToListAsync();
 
         public async Task<IList<Cobro>> ObtenerPorReservaAsync(Guid idReserva)

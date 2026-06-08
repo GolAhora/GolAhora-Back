@@ -14,6 +14,5 @@ namespace Application.Models.Response
         public string? Telefono { get; set; }
         public string? Direccion { get; set; }
         public int Edad { get; set; }
-        public decimal SaldoPendiente { get; set; } // ¡NUEVO!
     }
 }

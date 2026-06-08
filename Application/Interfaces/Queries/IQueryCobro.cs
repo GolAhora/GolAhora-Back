@@ -11,7 +11,7 @@ namespace Application.Interfaces.Queries
 
         Task<IList<Cobro>> ObtenerTodosAsync();
 
-        Task<IList<Cobro>> ObtenerPorFechaAsync(DateTime fecha);
+        Task<IList<Cobro>> ObtenerPorFechaAsync(DateTime? fecha);
 
         Task<IList<Cobro>> ObtenerPorReservaAsync(Guid idReserva);
 

@@ -16,19 +16,19 @@ namespace Infrastructure.Commands
 
         public async Task<Cancha> CrearCancha(Cancha cancha)
         {
-            await  _context.Cancha.AddAsync(cancha);
+            await _context.Cancha.AddAsync(cancha);
             await _context.SaveChangesAsync();
             return cancha;
         }
 
         public async Task<Cancha?> EliminarCancha(Guid id)
-             {
+        {
             Cancha? eliminar = await _context.Cancha.SingleOrDefaultAsync(c => c.Id == id);
-            if (eliminar == null) return null;  
+            if (eliminar == null) return null;
 
-                _context.Cancha.Remove(eliminar);
-                await _context.SaveChangesAsync();
-                return eliminar;
+            _context.Cancha.Remove(eliminar);
+            await _context.SaveChangesAsync();
+            return eliminar;
         }
 
 
@@ -39,7 +39,7 @@ namespace Infrastructure.Commands
 
             modificar.Numero = cancha.Numero;
             modificar.Estado = cancha.Estado;
-            modificar.TipoCancha = cancha.TipoCancha;
+            modificar.TipoCanchaId = cancha.TipoCanchaId;
 
             await _context.SaveChangesAsync();
             return modificar;

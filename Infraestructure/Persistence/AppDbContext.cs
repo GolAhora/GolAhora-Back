@@ -92,29 +92,49 @@ namespace Infrastructure.Persistence
                       .OnDelete(DeleteBehavior.Restrict);
             });
 
-     
+
 
             //// --- Configuración de Actividad ---
             modelBuilder.Entity<Actividad>(entity =>
             {
-               entity.HasKey(a => a.Id);
-               entity.Property(a => a.Id).ValueGeneratedOnAdd();
+                entity.HasKey(a => a.Id);
+                entity.Property(a => a.Id).ValueGeneratedOnAdd();
 
-               entity.Property(a => a.Nombre).HasMaxLength(100).IsRequired();
-               entity.Property(a => a.Fecha).IsRequired();
-               entity.Property(a => a.CupoMaximo).IsRequired();
+                entity.Property(a => a.Nombre).HasMaxLength(100).IsRequired();
+                entity.Property(a => a.Fecha).IsRequired();
+                entity.Property(a => a.HoraInicio).IsRequired();
+                entity.Property(a => a.HoraFin).IsRequired();
+                entity.Property(a => a.CupoMaximo).IsRequired();
 
-               entity.HasOne(a => a.Cancha)
-                     .WithMany(c => c.Actividades)
-                     .HasForeignKey(a => a.CanchaId)
-                     .OnDelete(DeleteBehavior.Restrict);
+                entity.HasOne(a => a.Cancha)
+                      .WithMany(c => c.Actividades)
+                      .HasForeignKey(a => a.CanchaId)
+                      .OnDelete(DeleteBehavior.Restrict);
 
                 entity.HasDiscriminator<string>("TipoReferencia")
                       .HasValue<Actividad>("Actividad")
                       .HasValue<Clase>("Clase")
                       .HasValue<Entrenamiento>("Entrenamiento");
+            }); // <-- ¡ACÁ CIERRA ACTIVIDAD!
+
+            // --- Configuración extra para que no explote al borrar profesores/entrenadores ---
+            // Estas van AFUERA de Actividad
+            modelBuilder.Entity<Clase>(entity =>
+            {
+                entity.HasOne(c => c.Profesor)
+                      .WithMany()
+                      .HasForeignKey(c => c.ProfesorId)
+                      .OnDelete(DeleteBehavior.Restrict);
             });
-            
+
+            modelBuilder.Entity<Entrenamiento>(entity =>
+            {
+                entity.HasOne(e => e.Entrenador)
+                      .WithMany()
+                      .HasForeignKey(e => e.EntrenadorId)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
+
 
             modelBuilder.Entity<Inscripcion>(entity =>
             {
