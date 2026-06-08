@@ -24,20 +24,27 @@ namespace Infrastructure.Queries
             .ToListAsync();
         }
 
-        public async Task<Reserva> ObtenerPorIdAsync(Guid id)
+
+        public async Task<Reserva?> ConsularReservaActiva(Guid canchaId)
         {
+            var ahora = DateTime.Now;
             return await _context.Reserva
-                .Include(r => r.Cancha)
-                .ThenInclude(c => c.TipoCancha)
-                .FirstOrDefaultAsync(r => r.Id == id);
+                .Where(r =>
+                    r.CanchaId == canchaId &&
+                    r.Fecha.Date == ahora.Date &&
+                    r.HoraInicio <= ahora.TimeOfDay &&
+                    r.HoraFin >= ahora.TimeOfDay)
+                .FirstOrDefaultAsync();
         }
 
-        public async Task<IList<Reserva>> ObtenerTodosAsync()
+        public Task<Reserva> ObtenerPorIdAsync(Guid id)
         {
-            return await _context.Reserva
-                .Include(r => r.Cancha)
-                .ThenInclude(c => c.TipoCancha)
-                .ToListAsync();
+            throw new NotImplementedException();
+        }
+
+        public Task<IList<Reserva>> ObtenerTodosAsync()
+        {
+            throw new NotImplementedException();
         }
     }
 
