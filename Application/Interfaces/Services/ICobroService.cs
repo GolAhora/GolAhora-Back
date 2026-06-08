@@ -10,11 +10,12 @@ namespace Application.Interfaces.Services
 {
     public interface ICobroService
     {
-        Task<CobroResponse> RegistrarCobro(CobroRequest request); 
+        Task<CobroResponse> RegistrarCobro(CobroRequest request);
         Task<CobroResponse> ModificarCobro(Guid id, CobroRequest request);
+        Task<IList<CobroResponse>> ConsultarCobros(DateTime fecha);
         Task<CobroResponse> ConsultarCobro(Guid id);
         Task<CobroResponse> EliminarCobro(Guid id);
-        Task<CobroResponse> ValidarCobro(Guid id);
-        Task<ReciboResponse> GenerarReciboDeCobro(Guid id);
+        Task<ReciboResponse> GenerarReciboDeCobro(Guid id); 
+
     }
 }

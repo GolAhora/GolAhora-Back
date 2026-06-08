@@ -58,6 +58,21 @@ namespace GolAhoraWebApi.Controllers
             }
         }
 
+        // POST api/v1/competencia/{id}/fixture
+        [HttpPost("{id}/fixture")]
+        public async Task<IActionResult> GenerarFixture(Guid id)
+        {
+            try
+            {
+                var res = await _competenciaService.GenerarFixture();
+                return new JsonResult(res) { StatusCode = 200 };
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 400 };
+            }
+        }
+
         [HttpPut("{id}")]
         public async Task<IActionResult> ModificarCompetencia(Guid id, CompetenciaRequest req)
         {
@@ -87,66 +102,6 @@ namespace GolAhoraWebApi.Controllers
             catch (Exception ex)
             {
                 return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 404 };
-            }
-        }
-
-        // POST api/v1/competencia/{id}/inscripcion/{idUsuario}
-        [HttpPost("{id}/inscripcion/{idUsuario}")]
-        public async Task<IActionResult> InscribirUsuario(Guid idCompetencia, Guid idUsuario)
-        {
-            try
-            {
-                var res = await _competenciaService.IncribirUsario(id, idUsuario);
-                return new JsonResult(res) { StatusCode = 200 };
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 400 };
-            }
-        }
-
-        // DELETE api/v1/competencia/{id}/inscripcion/{idUsuario}
-        [HttpDelete("{id}/inscripcion/{idUsuario}")]
-        public async Task<IActionResult> EliminarInscripcion(Guid id, Guid idUsuario)
-        {
-            try
-            {
-                var res = await _competenciaService.EliminarUsuarioDeCompetencia(id, idUsuario);
-                return new JsonResult(res) { StatusCode = 200 };
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 400 };
-            }
-        }
-
-        // GET api/v1/competencia/{id}/inscriptos
-        [HttpGet("{id}/inscriptos")]
-        public async Task<IActionResult> ConsultarInscriptos(Guid id)
-        {
-            try
-            {
-                var res = await _competenciaService.ConsultarInscriptos(id);
-                return new JsonResult(res) { StatusCode = 200 };
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 404 };
-            }
-        }
-
-        // POST api/v1/competencia/{id}/fixture
-        [HttpPost("{id}/fixture")]
-        public async Task<IActionResult> GenerarFixture(Guid id)
-        {
-            try
-            {
-                var res = await _competenciaService.GenerarFixture(id);
-                return new JsonResult(res) { StatusCode = 200 };
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 400 };
             }
         }
 

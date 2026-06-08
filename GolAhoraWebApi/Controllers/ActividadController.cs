@@ -44,20 +44,6 @@ namespace GolAhoraWebApi.Controllers
             }
         }
 
-        [HttpGet("competencia/{idCompetencia}")]
-        public async Task<IActionResult> ConsultarPorCompetencia(Guid idCompetencia)
-        {
-            try
-            {
-                var res = await _actividadService.ConsultarActividadPorCompetencia(idCompetencia);
-                return new JsonResult(res) { StatusCode = 200 };
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 404 };
-            }
-        }
-
         [HttpPost]
         public async Task<IActionResult> ProgramarActividad(ActividadRequest req)
         {
@@ -101,36 +87,6 @@ namespace GolAhoraWebApi.Controllers
             catch (Exception ex)
             {
                 return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 404 };
-            }
-        }
-
-        // DELETE api/v1/actividad/{idActividad}/inscripcion/{idUsuario}
-        [HttpDelete("{idActividad}/inscripcion/{idUsuario}")]
-        public async Task<IActionResult> CancelarInscripcion(Guid idActividad, Guid idUsuario)
-        {
-            try
-            {
-                var res = await _actividadService.CancelarInscripcionPorUsuario(idActividad, idUsuario);
-                return new JsonResult(res) { StatusCode = 200 };
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 400 };
-            }
-        }
-
-        // GET api/v1/actividad/{id}/cupo
-        [HttpGet("{id}/cupo")]
-        public async Task<IActionResult> ValidarCupo(Guid id)
-        {
-            try
-            {
-                var res = await _actividadService.ValidarCupoPorActividad(id);
-                return new JsonResult(res) { StatusCode = 200 };
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 409 };
             }
         }
     }

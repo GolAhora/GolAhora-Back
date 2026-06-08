@@ -18,7 +18,7 @@ namespace Application.Interfaces.Services
         Task<CompetenciaResponse> ConsultarCompetencia(Guid id);
         Task<CompetenciaResponse> ConsultarInscriptos();
         Task<CompetenciaResponse> GenerarFixture();
-        Task<CompetenciaResponse> ConsultarFixture();
+        Task<CompetenciaResponse> ConsultarFixture(Guid id);
 
     }
 }

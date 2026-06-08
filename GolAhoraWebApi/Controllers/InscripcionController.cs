@@ -1,6 +1,7 @@
 using Application.Interfaces.Services;
 using Application.Models.Request;
 using Application.Models.Response;
+using Domain.Entities;
 using Microsoft.AspNetCore.Mvc;
 
 namespace GolAhoraWebApi.Controllers
@@ -46,19 +47,18 @@ namespace GolAhoraWebApi.Controllers
 
         // GET api/v1/competencia/{id}/inscriptos
         [HttpGet]
-        public async Task<IActionResult> ConsultarInscriptos(Guid id)
+        public async Task<IActionResult> ConsultarInscriptos(Guid idActividad)
         {
-            // try
-            // {
-            //     var res = await _inscripcionService.(id);
-            //     return new JsonResult(res) { StatusCode = 200 };
-            // }
-            // catch (Exception ex)
-            // {
-            //     return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 404 };
-            // }
+            try
+            {
+                var res = await _inscripcionService.ConsultarInscripcion(idActividad);
+                return new JsonResult(res) { StatusCode = 200 };
+            }
+            catch (Exception ex)
+            {
+                return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 404 };
+            }
 
-            return new JsonResult("") { StatusCode = 200 };
         }
     
     }

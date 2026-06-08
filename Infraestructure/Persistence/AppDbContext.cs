@@ -55,7 +55,8 @@ namespace Infrastructure.Persistence
         public DbSet<TipoCancha> TipoCancha { get; set; }
         public DbSet<Actividad> Actividad { get; set; }
         public DbSet<Persona> Persona { get; set; }
-        public DbSet<Usuario> Usuario { get; set; } 
+        public DbSet<Usuario> Usuario { get; set; }
+        public DbSet<Inscripcion> Inscripcion { get; set; }
         public DbSet<Asistencia> Asistencia { get; set; }
         public DbSet<Reserva> Reserva { get; set; }
         public DbSet<Mantenimiento> Mantenimiento { get; set; }
@@ -106,6 +107,29 @@ namespace Infrastructure.Persistence
                entity.HasOne(a => a.Cancha)
                      .WithMany(c => c.Actividades)
                      .HasForeignKey(a => a.CanchaId)
+                     .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasDiscriminator<string>("TipoReferencia")
+                      .HasValue<Actividad>("Actividad")
+                      .HasValue<Clase>("Clase")
+                      .HasValue<Entrenamiento>("Entrenamiento");
+            });
+            
+
+            modelBuilder.Entity<Inscripcion>(entity =>
+            {
+               entity.HasKey(i => i.Id);
+               entity.Property(i => i.Id).ValueGeneratedOnAdd();
+               entity.Property(i => i.Fecha).IsRequired();
+               // Relación con Usuario
+               entity.HasOne(i => i.Usuario)
+                     .WithMany(u => u.Inscripciones)
+                     .HasForeignKey(i => i.UsuarioId)
+                     .OnDelete(DeleteBehavior.Restrict);
+               // Relación con Actividad
+               entity.HasOne(i => i.Actividad)
+                     .WithMany(a => a.Inscripciones)
+                     .HasForeignKey(i => i.ReferenciaId)
                      .OnDelete(DeleteBehavior.Restrict);
             });
 

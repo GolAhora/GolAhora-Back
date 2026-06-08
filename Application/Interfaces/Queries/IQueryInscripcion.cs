@@ -8,5 +8,7 @@ namespace Application.Interfaces.Queries
     public interface IQueryInscripcion
     {
          Task<Inscripcion> ConsultarInscripcion(Guid id);
+
+        Task<IList<Inscripcion>> ConsultarInscriptos(Guid idActividad);
     }
 }

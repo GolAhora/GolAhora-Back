@@ -11,5 +11,7 @@ namespace Domain.Entities
         public string ClerkId { get; set; } 
         public DateTime FechaRegistro { get; set; }
         public List<Reserva> Reservas { get; set; }
+        public List<Inscripcion> Inscripciones { get; set; }
+
     }
 }

@@ -89,20 +89,5 @@ namespace GolAhoraWebApi.Controllers
                 return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 404 };
             }
         }
-
-        // PUT api/v1/mantenimiento/{id}/cancha/{idCancha}
-        [HttpPut("{id}/cancha/{idCancha}")]
-        public async Task<IActionResult> AgregarCancha(Guid id, Guid idCancha)
-        {
-            try
-            {
-                var res = await _mantenimientoService.AgregarCanchaAMantenimiento(id, idCancha);
-                return new JsonResult(res) { StatusCode = 200 };
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 400 };
-            }
-        }
     }
 }

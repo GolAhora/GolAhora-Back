@@ -40,6 +40,13 @@ namespace Application.UseCases
             return cobros.Select(Mapear).ToList();
         }
 
+
+        public async Task<IList<CobroResponse>> ConsultarCobros(DateTime fecha)
+        {
+            var cobros = await _query.ObtenerPorFechaAsync(fecha);
+            return cobros.Select(Mapear).ToList();
+        }
+
         public async Task<IList<CobroResponse>> ConsultarCobroPorReserva(Guid idReserva)
         {
             var cobros = await _query.ObtenerPorReservaAsync(idReserva);
@@ -144,5 +151,6 @@ namespace Application.UseCases
             MedioPago     = c.MedioPago,
             ReferenciaId  = c.ReferenciaId
         };
+
     }
 }

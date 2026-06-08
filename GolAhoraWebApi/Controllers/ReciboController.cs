@@ -44,20 +44,6 @@ namespace GolAhoraWebApi.Controllers
             }
         }
 
-        [HttpGet("usuario/{idUsuario}")]
-        public async Task<IActionResult> ConsultarPorUsuario(Guid idUsuario)
-        {
-            try
-            {
-                var lista = await _reciboService.ConsultarRecibosPorUsuario(idUsuario);
-                return new JsonResult(lista) { StatusCode = 200 };
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 400 };
-            }
-        }
-
         [HttpPost]
         public async Task<IActionResult> GenerarRecibo(ReciboRequest req)
         {

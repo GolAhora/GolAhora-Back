@@ -15,11 +15,11 @@ namespace GolAhoraWebApi.Controllers
             => _cobroService = cobroService;
 
         [HttpGet]
-        public async Task<IActionResult> ConsultarCobros()
+        public async Task<IActionResult> ConsultarCobros(Guid id)
         {
             try
             {
-                var lista = await _cobroService.ConsultarCobros();
+                var lista = await _cobroService.ConsultarCobro(id);
                 return new JsonResult(lista) { StatusCode = 200 };
             }
             catch (Exception ex)
@@ -44,47 +44,19 @@ namespace GolAhoraWebApi.Controllers
             }
         }
 
-        [HttpGet("fecha/{fecha}")]
-        public async Task<IActionResult> ConsultarPorFecha(DateTime fecha)
-        {
-            try
-            {
-                var lista = await _cobroService.ConsultarCobroPorFecha(fecha);
-                return new JsonResult(lista) { StatusCode = 200 };
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 400 };
-            }
-        }
-
-        [HttpGet("reserva/{idReserva}")]
-        public async Task<IActionResult> ConsultarPorReserva(Guid idReserva)
-        {
-            try
-            {
-                var lista = await _cobroService.ConsultarCobroPorReserva(idReserva);
-                return new JsonResult(lista) { StatusCode = 200 };
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 400 };
-            }
-        }
-
-        [HttpGet("usuario/{idUsuario}")]
-        public async Task<IActionResult> ConsultarPorUsuario(Guid idUsuario)
-        {
-            try
-            {
-                var lista = await _cobroService.ConsultarCobroPorUsuario(idUsuario);
-                return new JsonResult(lista) { StatusCode = 200 };
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 400 };
-            }
-        }
+        //[HttpGet("usuario/{idUsuario}")]
+        //public async Task<IActionResult> ConsultarPorUsuario(Guid idUsuario)
+        //{
+        //    try
+        //    {
+        //        var lista = await _cobroService.ConsultarCobroPorUsuario(idUsuario);
+        //        return new JsonResult(lista) { StatusCode = 200 };
+        //    }
+        //    catch (Exception ex)
+        //    {
+        //        return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 400 };
+        //    }
+        //}
 
         [HttpPost]
         public async Task<IActionResult> RegistrarCobro(CobroRequest req)
@@ -129,21 +101,6 @@ namespace GolAhoraWebApi.Controllers
             catch (Exception ex)
             {
                 return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 404 };
-            }
-        }
-
-        // POST api/v1/cobro/{id}/validar
-        [HttpPost("{id}/validar")]
-        public async Task<IActionResult> ValidarCobro(Guid id)
-        {
-            try
-            {
-                var res = await _cobroService.ValidarCobro(id);
-                return new JsonResult(res) { StatusCode = 200 };
-            }
-            catch (Exception ex)
-            {
-                return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 400 };
             }
         }
 
