@@ -112,7 +112,8 @@ namespace Application.UseCases
             {
                 Id = canchaExistente.Id,
                 Numero = request.Numero ?? canchaExistente.Numero,
-                Estado = request.Estado ?? canchaExistente.Estado
+                TipoCanchaId = request.TipoCanchaId != Guid.Empty  ? request.TipoCanchaId : canchaExistente.TipoCanchaId ,
+                Estado = request.Estado ?? canchaExistente.Estado,
             };
 
             var nc = await _command.ModificarCancha(id, canchaModificada);
@@ -122,6 +123,15 @@ namespace Application.UseCases
                 Id = nc.Id,
                 Numero = nc.Numero, 
                 Estado = nc.Estado,
+                TipoCancha = new TipoCanchaResponse
+                {
+                    Id = nc.TipoCancha.Id,
+                    Nombre = nc.TipoCancha.Nombre,
+                    Capacidad = nc.TipoCancha.Capacidad,
+                    DuracionMax = nc.TipoCancha.DuracionMax,
+                    PrecioBaseHora = nc.TipoCancha.PrecioBaseHora,
+                    Superficie = nc.TipoCancha.Superficie
+                }
             };
 
         }

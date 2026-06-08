@@ -35,6 +35,16 @@ namespace Application.UseCases
             return Mapear(reserva);
         }
 
+        public async Task<ReservaResponse?> ConsultarReservaActiva(Guid idCancha)
+        {
+            var reserva = await _query.ConsularReservaActiva(idCancha);
+
+            if (reserva == null) throw new Exception("La reserva solicitada no existe.");
+
+            return Mapear(reserva);
+        }
+
+
         public async Task<IList<ReservaResponse>> ConsultarReservas()
         {
             var reservas = await _query.ObtenerTodosAsync();

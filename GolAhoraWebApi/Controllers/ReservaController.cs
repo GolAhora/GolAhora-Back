@@ -29,6 +29,42 @@ namespace GolAhoraWebApi.Controllers
             {
                 return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 400 };
             }
+        }   
+
+
+
+        
+
+        [HttpGet("cancha/{idCancha}/reservas")]
+        public async Task<IActionResult>  ConsultarReservasCancha(Guid idCancha)
+        {
+           try
+            {
+                 var reservas = await _reservaService.ConsultarReservasCancha(idCancha);
+
+                 return new JsonResult(reservas) { StatusCode = 200 }; 
+            }
+
+             catch (Exception ex)
+            {
+                return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 400 };
+            }
+        }
+
+           [HttpGet("cancha")]
+        public async Task<IActionResult>  ConsultarReservaActiva([FromQuery] Guid idCancha)
+        {
+           try
+            {
+                 var reserva = await _reservaService.ConsultarReservaActiva(idCancha);
+
+                 return new JsonResult(reserva) { StatusCode = 200 }; 
+            }
+
+             catch (Exception ex)
+            {
+                return new JsonResult(new BadRequest { Message = ex.Message }) { StatusCode = 400 };
+            }
         }
 
         // GET api/v1/reserva/{id}
@@ -56,7 +92,7 @@ namespace GolAhoraWebApi.Controllers
             if (req.CanchaId == Guid.Empty)
                 return new JsonResult(new BadRequest { Message = "El ID de cancha es obligatorio." }) { StatusCode = 400 };
 
-            if (req.UsuarioId == Guid.Empty)
+            if (String.IsNullOrEmpty(req.UsuarioId))
                 return new JsonResult(new BadRequest { Message = "El ID de usuario es obligatorio." }) { StatusCode = 400 };
 
             try

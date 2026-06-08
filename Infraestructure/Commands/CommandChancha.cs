@@ -39,7 +39,7 @@ namespace Infrastructure.Commands
 
             modificar.Numero = cancha.Numero;
             modificar.Estado = cancha.Estado;
-            modificar.TipoCancha = cancha.TipoCancha;
+            modificar.TipoCanchaId = cancha.TipoCanchaId;
 
             await _context.SaveChangesAsync();
             return modificar;
