@@ -25,6 +25,7 @@ namespace Infrastructure.Queries
         }
 
 
+
         public async Task<Reserva?> ConsularReservaActiva(Guid canchaId)
         {
             var ahora = DateTime.Now;
@@ -37,14 +38,20 @@ namespace Infrastructure.Queries
                 .FirstOrDefaultAsync();
         }
 
-        public Task<Reserva> ObtenerPorIdAsync(Guid id)
+        public async Task<Reserva> ObtenerPorIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Reserva
+                .Include(r => r.Cancha)
+                .ThenInclude(c => c.TipoCancha)
+                .FirstOrDefaultAsync(r => r.Id == id);
         }
 
-        public Task<IList<Reserva>> ObtenerTodosAsync()
+        public async Task<IList<Reserva>> ObtenerTodosAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Reserva
+                .Include(r => r.Cancha)
+                .ThenInclude(c => c.TipoCancha)
+                .ToListAsync();
         }
     }
 
